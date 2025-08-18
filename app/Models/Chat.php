@@ -6,5 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'chat_content',
+        'response_text',
+        'hreg',
+        'sender_type',
+        'timestamp',
+    ];
+
+    protected $casts = [
+        'sender_type' => 'string',
+        'timestamp' => 'datetime',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'uid');
+    }
 }

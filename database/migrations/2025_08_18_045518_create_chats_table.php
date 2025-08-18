@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
+            $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
+            $table->text('chat_content');
+            $table->text('response_text')->nullable();
+            $table->string('hreg');
+            $table->enum('sender_type', ['user', 'assistant']);
+            $table->timestamp('timestamp')->useCurrent();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('chats');

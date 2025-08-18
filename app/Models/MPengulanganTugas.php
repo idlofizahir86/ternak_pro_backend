@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MPengulanganTugas extends Model
 {
-    //
+    protected $fillable = ['nama', 'is_aktif'];
+
+    protected $casts = [
+        'is_aktif' => 'boolean',
+    ];
 }

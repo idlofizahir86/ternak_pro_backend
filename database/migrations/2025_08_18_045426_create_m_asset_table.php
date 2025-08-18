@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_asset', function (Blueprint $table) {
+        Schema::create('m_assets', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
+            $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
+            $table->string('nama');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('m_asset');
+        Schema::dropIfExists('m_assets');
     }
 };

@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('konsultasi_kategoris', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->boolean('is_aktif')->default(true);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('konsultasi_kategoris');
