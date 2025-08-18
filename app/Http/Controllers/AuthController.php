@@ -70,24 +70,39 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // Attempt to authenticate
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        // Attempt authentication
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials',
             ], 401);
         }
 
-        // Generate Sanctum token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Get authenticated user
+        $user = Auth::user();
 
+        // Check if email is verified (optional, if you use email verification)
+        if ($user->email_verified_at === null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email not verified',
+            ], 403);
+        }
+
+        // Generate Sanctum token
+        $token = $user->createToken('FlutterApp')->plainTextToken;
+
+        // Return sanitized user data
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
             'data' => [
-                'user' => $user,
+                'user' => [
+                    'uid' => $user->uid,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role_id' => $user->role_id,
+                ],
                 'token' => $token,
             ],
         ], 200);
