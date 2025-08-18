@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
+    public $timestamps = false;  // Menonaktifkan penggunaan created_at dan updated_at
+
     protected $fillable = [
         'user_id',
         'chat_content',
         'response_text',
-        'hreg',
+        'href',
         'sender_type',
         'timestamp',
     ];

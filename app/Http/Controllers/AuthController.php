@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
+use App\Models\MAsset;
+use App\Models\MDefaultAsset;
+use App\Models\MDefaultJenisTugas;
+use App\Models\MDefaultTujuanTernak;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\MJenisTugas;
+use App\Models\MTujuanTernak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -40,6 +46,52 @@ class AuthController extends Controller
             'no_telepon' => $request->no_telepon,
             'role_id' => $request->role_id,
         ]);
+
+        // ==========================DATA DEFAULT KETIKA REGISTER===============================
+        // Ambil semua data aktif dari MDefaultJenisTugas
+        $defaultJenisTugas = MDefaultJenisTugas::where('is_aktif', true)->get();
+        foreach ($defaultJenisTugas as $jenisTugas) {
+            MJenisTugas::create([
+                'user_id' => $user->uid, // Pastikan kamu memiliki $user di sini
+                'nama' => $jenisTugas->nama,
+                'icon_path' => $jenisTugas->icon_path,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        $defaultAset = MDefaultAsset::where('is_aktif', true)->get();
+        foreach ($defaultAset as $aset) {
+            MAsset::create([
+                'user_id' => $user->uid, // Pastikan kamu memiliki $user di sini
+                'nama' => $aset->nama,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        $defaultTujuanTernak = MDefaultTujuanTernak::where('is_aktif', true)->get();
+        foreach ($defaultTujuanTernak as $tujuanTernak) {
+            MTujuanTernak::create([
+                'user_id' => $user->uid, // Pastikan kamu memiliki $user di sini
+                'nama' => $tujuanTernak->nama,
+                'created_at' => now()->format('Y-m-d H:i:s'),
+                'updated_at' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        // Chat awal
+        Chat::create([
+            'user_id' => $user->uid,
+            'sender_type' => 'assistant',
+            'response_text' => 'Halo '.$user->name.'👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
+        ]);
+        Chat::create([
+            'user_id' => $user->uid,
+            'sender_type' => 'assistant',
+            'response_text' => 'Bagaimana Aku Bisa Membantumu ☺️ ?',
+        ]);
+        // ==================================================================================================
 
         // Generate Sanctum token
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -87,7 +139,12 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Login successful',
             'data' => [
-                'user' => $user,
+                'user' => [
+                    'uid' => $user->uid,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role_id' => $user->role_id,
+                ],
                 'token' => $token,
             ],
         ], 200);

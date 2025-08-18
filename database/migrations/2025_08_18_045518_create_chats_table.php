@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
-            $table->text('chat_content');
+            $table->text('chat_content')->nullable();
             $table->text('response_text')->nullable();
-            $table->string('hreg');
+            $table->string('href')->nullable();
             $table->enum('sender_type', ['user', 'assistant']);
             $table->timestamp('timestamp')->useCurrent();
-            $table->timestamps();
         });
     }
 

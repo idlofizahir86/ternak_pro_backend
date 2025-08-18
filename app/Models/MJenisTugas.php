@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MJenisTugas extends Model
 {
-    protected $fillable = ['user_id', 'nama'];
+    protected $fillable = ['user_id', 'nama', 'icon_path'];
 
     public function user()
     {

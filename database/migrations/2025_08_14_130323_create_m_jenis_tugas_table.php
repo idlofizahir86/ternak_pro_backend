@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->foreign('user_id')->references('uid')->on('users')->onDelete('cascade');
             $table->string('nama');
+            $table->string('icon_path');
             $table->timestamps();
         });
     }
