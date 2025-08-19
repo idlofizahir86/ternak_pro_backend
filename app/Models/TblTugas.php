@@ -4,6 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Tugas",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="user_id", type="integer", example=1),
+ *     @OA\Property(property="jenis_tugas_id", type="integer", example=1),
+ *     @OA\Property(property="tgl_tugas", type="string", format="date", example="2025-08-20"),
+ *     @OA\Property(property="waktu_tugas", type="string", format="date-time", example="2025-08-20T12:00:00Z"),
+ *     @OA\Property(property="status_tugas_id", type="integer", example=1),
+ *     @OA\Property(property="pengulangan_id", type="integer", example=1),
+ *     @OA\Property(property="is_pengingat", type="boolean", example=true),
+ *     @OA\Property(property="catatan", type="string", example="Catatan tugas"),
+ *     @OA\Property(
+ *         property="user",
+ *         ref="#/components/schemas/User"
+ *     ),
+ *     @OA\Property(
+ *         property="jenis_tugas",
+ *         ref="#/components/schemas/JenisTugas"
+ *     ),
+ *     @OA\Property(
+ *         property="status_tugas",
+ *         ref="#/components/schemas/StatusTugas"
+ *     ),
+ *     @OA\Property(
+ *         property="pengulangan",
+ *         ref="#/components/schemas/PengulanganTugas"
+ *     )
+ * )
+ */
 class TblTugas extends Model
 {
     protected $fillable = [

@@ -18,6 +18,54 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/register",
+     *     summary="Registrasi pengguna baru",
+     *     description="Endpoint ini digunakan untuk mendaftarkan pengguna baru dalam aplikasi.",
+     *     tags={"Autentikasi"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "email", "password", "role_id"},
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123"),
+     *             @OA\Property(property="no_telepon", type="string", example="08123456789"),
+     *             @OA\Property(property="role_id", type="integer", example="1")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User successfully registered",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="User registered successfully"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="uid", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *                     @OA\Property(property="role_id", type="integer", example="1")
+     *                 ),
+     *                 @OA\Property(property="token", type="string", example="your-generated-token-here")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation failed",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="name", type="array", @OA\Items(type="string", example="The name field is required")),
+     *                 @OA\Property(property="email", type="array", @OA\Items(type="string", example="The email field is required"))
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         // Validate request data
@@ -84,7 +132,7 @@ class AuthController extends Controller
         Chat::create([
             'user_id' => $user->uid,
             'sender_type' => 'assistant',
-            'response_text' => 'Halo '.$user->name.'👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
+            'response_text' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
         ]);
         Chat::create([
             'user_id' => $user->uid,
@@ -106,6 +154,59 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Login pengguna",
+     *     description="Endpoint ini digunakan untuk login ke aplikasi dengan email dan password.",
+     *     tags={"Autentikasi"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login berhasil",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Login successful"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", type="object",
+     *                     @OA\Property(property="uid", type="string", example="123e4567-e89b-12d3-a456-426614174000"),
+     *                     @OA\Property(property="name", type="string", example="John Doe"),
+     *                     @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *                     @OA\Property(property="role_id", type="integer", example="1")
+     *                 ),
+     *                 @OA\Property(property="token", type="string", example="your-generated-token-here")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Invalid credentials")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation failed",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="email", type="array", @OA\Items(type="string", example="The email field is required")),
+     *                 @OA\Property(property="password", type="array", @OA\Items(type="string", example="The password field is required"))
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         // Validate request data

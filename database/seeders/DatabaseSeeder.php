@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\MDefaultAsset;
-use App\Models\MDefaultJenisTugas;
-use App\Models\MDefaultTujuanTernak;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +22,8 @@ class DatabaseSeeder extends Seeder
             KonsultasiKategorisSeeder::class,
             SuplierKategorisSeeder::class,
             TipsKategorisSeeder::class,
+            MHewanSeeder::class,
+            MRasSeeder::class,
             // Tambahkan seeder lain seperti StatusTugasSeeder jika ada
         ]);
     }
