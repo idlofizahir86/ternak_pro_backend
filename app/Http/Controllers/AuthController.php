@@ -20,7 +20,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/register",
+     *     path="/api/v1/register",
      *     summary="Registrasi pengguna baru",
      *     description="Endpoint ini digunakan untuk mendaftarkan pengguna baru dalam aplikasi.",
      *     tags={"Autentikasi"},
@@ -156,7 +156,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/login",
+     *     path="/api/v1/login",
      *     summary="Login pengguna",
      *     description="Endpoint ini digunakan untuk login ke aplikasi dengan email dan password.",
      *     tags={"Autentikasi"},

@@ -1,0 +1,4 @@
+/* Menyembunyikan topbar Swagger UI */
+.swagger-ui .topbar {
+    display: none;
+}

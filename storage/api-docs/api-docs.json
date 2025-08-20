@@ -9,14 +9,254 @@
         "version": "v1"
     },
     "paths": {
-        "/api/register": {
+        "/api/v1/asset/{user_id}": {
+            "get": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Mengambil asset berdasarkan user_id",
+                "description": "Endpoint ini digunakan untuk mengambil semua data asset berdasarkan ID pengguna.",
+                "operationId": "88c57d6dd096ab0e0fa5a297a616db16",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data asset",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MAsset"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Mengupdate data asset",
+                "description": "Endpoint ini digunakan untuk mengupdate data asset berdasarkan ID pengguna.",
+                "operationId": "f96a74ff7a18ede6def1653cfa616724",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Sapi Holstein"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asset berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MAsset"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asset tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asset tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Menyimpan asset baru",
+                "description": "Endpoint ini digunakan untuk membuat data asset baru untuk pengguna tertentu.",
+                "operationId": "eb72172ad715d04d11d952878f04d79f",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Sapi Holstein"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Asset berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MAsset"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Asset"
+                ],
+                "summary": "Menghapus data asset",
+                "description": "Endpoint ini digunakan untuk menghapus data asset berdasarkan ID pengguna.",
+                "operationId": "5c6cad1b888562eaaebc188ba948c784",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Asset berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asset berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Asset tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Asset tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
             "post": {
                 "tags": [
                     "Autentikasi"
                 ],
                 "summary": "Registrasi pengguna baru",
                 "description": "Endpoint ini digunakan untuk mendaftarkan pengguna baru dalam aplikasi.",
-                "operationId": "8a56853624e025573120a09a4c75d468",
+                "operationId": "6796c44e1f6079c411abbfed066c5907",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -150,14 +390,14 @@
                 }
             }
         },
-        "/api/login": {
+        "/api/v1/login": {
             "post": {
                 "tags": [
                     "Autentikasi"
                 ],
                 "summary": "Login pengguna",
                 "description": "Endpoint ini digunakan untuk login ke aplikasi dengan email dan password.",
-                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "operationId": "da2ca4d7a5cdec77b8b45a20373535cb",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -287,6 +527,2321 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harga-pasar": {
+            "get": {
+                "tags": [
+                    "Harga Pasar"
+                ],
+                "summary": "Mengambil semua data harga pasar",
+                "description": "Endpoint ini digunakan untuk mengambil semua data harga pasar yang tersedia.",
+                "operationId": "f91fc2e4083e922abc8ae81b4958c29f",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data harga pasar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/HargaPasarItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Harga Pasar"
+                ],
+                "summary": "Menyimpan harga pasar baru",
+                "description": "Endpoint ini digunakan untuk membuat data harga pasar baru.",
+                "operationId": "5100d0bf973454c2a8cdc084bed9a56f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image_url",
+                                    "nama",
+                                    "harga_kg",
+                                    "kondisi",
+                                    "lokasi"
+                                ],
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Sapi Holstein"
+                                    },
+                                    "harga_kg": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50000
+                                    },
+                                    "kondisi": {
+                                        "type": "string",
+                                        "example": "Sehat"
+                                    },
+                                    "lokasi": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Harga pasar berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HargaPasarItem"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/harga-pasar/{id}": {
+            "put": {
+                "tags": [
+                    "Harga Pasar"
+                ],
+                "summary": "Mengupdate data harga pasar",
+                "description": "Endpoint ini digunakan untuk mengupdate data harga pasar berdasarkan ID.",
+                "operationId": "060a9c954d816d02b4763620c2955d63",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID harga pasar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Sapi Holstein"
+                                    },
+                                    "harga_kg": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50000
+                                    },
+                                    "kondisi": {
+                                        "type": "string",
+                                        "example": "Sehat"
+                                    },
+                                    "lokasi": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Harga pasar berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HargaPasarItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Harga pasar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Harga Pasar tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Harga Pasar"
+                ],
+                "summary": "Menghapus data harga pasar",
+                "description": "Endpoint ini digunakan untuk menghapus data harga pasar berdasarkan ID.",
+                "operationId": "ec725998f4d95a39635ebb893f153a7a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID harga pasar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Harga pasar berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Harga Pasar berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Harga pasar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Harga Pasar tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/keuangan/{tipe}/total/{user_id}": {
+            "get": {
+                "tags": [
+                    "Keuangan"
+                ],
+                "summary": "Mengambil total keuangan berdasarkan tipe dan user_id",
+                "description": "Endpoint ini digunakan untuk mengambil total nominal keuangan berdasarkan tipe (pengeluaran atau pemasukan) dan ID pengguna.",
+                "operationId": "3b6fd4e32f1907d2f3a133616799816a",
+                "parameters": [
+                    {
+                        "name": "tipe",
+                        "in": "path",
+                        "description": "Tipe keuangan (pengeluaran atau pemasukan)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pengeluaran",
+                                "pemasukan"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil total keuangan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_keuangan": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1000000
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/keuangan/{tipe}/{user_id}": {
+            "get": {
+                "tags": [
+                    "Keuangan"
+                ],
+                "summary": "Mengambil data keuangan berdasarkan tipe dan user_id",
+                "description": "Endpoint ini digunakan untuk mengambil semua data keuangan berdasarkan tipe (pengeluaran atau pemasukan) dan ID pengguna.",
+                "operationId": "9aefcc0e856280122126bbe22fbfb848",
+                "parameters": [
+                    {
+                        "name": "tipe",
+                        "in": "path",
+                        "description": "Tipe keuangan (pengeluaran atau pemasukan)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pengeluaran",
+                                "pemasukan"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data keuangan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Keuangan"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/keuangan": {
+            "post": {
+                "tags": [
+                    "Keuangan"
+                ],
+                "summary": "Menyimpan data keuangan baru",
+                "description": "Endpoint ini digunakan untuk membuat data keuangan baru.",
+                "operationId": "8da432ebf2e62f8756b02b2cba3d9c87",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "is_pengeluaran",
+                                    "tgl_keuangan",
+                                    "nominal_total"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "user123"
+                                    },
+                                    "is_pengeluaran": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tgl_keuangan": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-08-20"
+                                    },
+                                    "nominal_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1000000
+                                    },
+                                    "dari_tujuan": {
+                                        "type": "string",
+                                        "example": "Pembelian pakan"
+                                    },
+                                    "aset_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "catatan": {
+                                        "type": "string",
+                                        "example": "Pembelian pakan untuk sapi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data keuangan berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Keuangan"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/keuangan/{id}": {
+            "put": {
+                "tags": [
+                    "Keuangan"
+                ],
+                "summary": "Mengupdate data keuangan",
+                "description": "Endpoint ini digunakan untuk mengupdate data keuangan berdasarkan ID.",
+                "operationId": "39c97bb292d5e315559f042a6d6a6f29",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID data keuangan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "is_pengeluaran": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "tgl_keuangan": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-08-20"
+                                    },
+                                    "nominal_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1000000
+                                    },
+                                    "dari_tujuan": {
+                                        "type": "string",
+                                        "example": "Pembelian pakan"
+                                    },
+                                    "aset_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "catatan": {
+                                        "type": "string",
+                                        "example": "Pembelian pakan untuk sapi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data keuangan berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Keuangan"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data keuangan tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data keuangan tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Keuangan"
+                ],
+                "summary": "Menghapus data keuangan",
+                "description": "Endpoint ini digunakan untuk menghapus data keuangan berdasarkan ID.",
+                "operationId": "f6a6d7806cd6c53f978ae2eda3e1d5f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID data keuangan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data keuangan berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data keuangan berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data keuangan tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data keuangan tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/konsultasi-pakar/kategoris": {
+            "get": {
+                "tags": [
+                    "Kategori Konsultasi Pakar"
+                ],
+                "summary": "Mengambil semua kategori konsultasi pakar",
+                "description": "Endpoint ini digunakan untuk mengambil semua data kategori konsultasi pakar yang tersedia.",
+                "operationId": "30db5d14fc5ce26b37e7b7dfb145b985",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data kategori konsultasi pakar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/KonsultasiKategori"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/konsultasi-pakar": {
+            "get": {
+                "tags": [
+                    "Konsultasi Pakar"
+                ],
+                "summary": "Mengambil semua konsultasi pakar",
+                "description": "Endpoint ini digunakan untuk mengambil semua data konsultasi pakar yang tersedia.",
+                "operationId": "52e3ceb393e7a74db33c2f7419e30b68",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data konsultasi pakar",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/KonsultasiItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Konsultasi Pakar"
+                ],
+                "summary": "Menyimpan konsultasi pakar baru",
+                "description": "Endpoint ini digunakan untuk membuat data konsultasi pakar baru.",
+                "operationId": "0fa99af115ef67938ca51862db11d6a2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image_url",
+                                    "nama",
+                                    "kategori_id",
+                                    "harga",
+                                    "durasi",
+                                    "no_tlp",
+                                    "spesialis",
+                                    "lokasi_praktik",
+                                    "pukul_mulai",
+                                    "pukul_akhir"
+                                ],
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Dr. John Doe"
+                                    },
+                                    "kategori_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500000
+                                    },
+                                    "durasi": {
+                                        "type": "string",
+                                        "example": "1 jam"
+                                    },
+                                    "no_tlp": {
+                                        "type": "string",
+                                        "example": "08123456789"
+                                    },
+                                    "spesialis": {
+                                        "type": "string",
+                                        "example": "Dokter Hewan"
+                                    },
+                                    "lokasi_praktik": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "pukul_mulai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "08:00:00"
+                                    },
+                                    "pukul_akhir": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "17:00:00"
+                                    },
+                                    "pendidikan": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "S1 Kedokteran Hewan"
+                                        }
+                                    },
+                                    "pengalaman": {
+                                        "type": "string",
+                                        "example": "5 tahun di klinik hewan"
+                                    },
+                                    "fokus_konsultasi": {
+                                        "type": "string",
+                                        "example": "Kesehatan sapi perah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Konsultasi pakar berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KonsultasiItem"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/konsultasi-pakar/{id}": {
+            "put": {
+                "tags": [
+                    "Konsultasi Pakar"
+                ],
+                "summary": "Mengupdate data konsultasi pakar",
+                "description": "Endpoint ini digunakan untuk mengupdate data konsultasi pakar berdasarkan ID.",
+                "operationId": "c391cb8bb40bcb696fc9a4978c624465",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID konsultasi pakar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Dr. John Doe"
+                                    },
+                                    "kategori_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500000
+                                    },
+                                    "durasi": {
+                                        "type": "string",
+                                        "example": "1 jam"
+                                    },
+                                    "no_tlp": {
+                                        "type": "string",
+                                        "example": "08123456789"
+                                    },
+                                    "spesialis": {
+                                        "type": "string",
+                                        "example": "Dokter Hewan"
+                                    },
+                                    "lokasi_praktik": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "pukul_mulai": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "08:00:00"
+                                    },
+                                    "pukul_akhir": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "17:00:00"
+                                    },
+                                    "pendidikan": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "S1 Kedokteran Hewan"
+                                        }
+                                    },
+                                    "pengalaman": {
+                                        "type": "string",
+                                        "example": "5 tahun di klinik hewan"
+                                    },
+                                    "fokus_konsultasi": {
+                                        "type": "string",
+                                        "example": "Kesehatan sapi perah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi pakar berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/KonsultasiItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Konsultasi pakar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Konsultasi Pakar tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Konsultasi Pakar"
+                ],
+                "summary": "Menghapus data konsultasi pakar",
+                "description": "Endpoint ini digunakan untuk menghapus data konsultasi pakar berdasarkan ID.",
+                "operationId": "53a0e109d92a2bae345d205fe5629ac4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID konsultasi pakar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Konsultasi pakar berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Konsultasi Pakar berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Konsultasi pakar tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Konsultasi Pakar tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/suplier-pakan/kategoris": {
+            "get": {
+                "tags": [
+                    "Kategori Supplier Pakan"
+                ],
+                "summary": "Mengambil semua kategori supplier pakan",
+                "description": "Endpoint ini digunakan untuk mengambil semua data kategori supplier pakan yang tersedia.",
+                "operationId": "baec3b9f498c07ba9996679a80b8906f",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data kategori supplier pakan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SuplierKategori"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/suplier-pakan": {
+            "get": {
+                "tags": [
+                    "Supplier Pakan"
+                ],
+                "summary": "Mengambil semua supplier pakan",
+                "description": "Endpoint ini digunakan untuk mengambil semua data supplier pakan yang tersedia.",
+                "operationId": "6e4c5cfff25c6cdfd87c25e047e55e5b",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data supplier pakan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SuplierItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Supplier Pakan"
+                ],
+                "summary": "Menyimpan supplier pakan baru",
+                "description": "Endpoint ini digunakan untuk membuat data supplier pakan baru.",
+                "operationId": "46201f7fb9cbab04a3837fe052940b19",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image_url",
+                                    "judul",
+                                    "detail",
+                                    "khasiat",
+                                    "kategori_id",
+                                    "is_stok",
+                                    "harga",
+                                    "no_tlp",
+                                    "alamat"
+                                ],
+                                "properties": {
+                                    "image_url": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url",
+                                            "example": "https://example.com/image.jpg"
+                                        }
+                                    },
+                                    "judul": {
+                                        "type": "string",
+                                        "example": "Pakan Sapi Premium"
+                                    },
+                                    "detail": {
+                                        "type": "string",
+                                        "example": "Pakan berkualitas tinggi untuk sapi perah"
+                                    },
+                                    "khasiat": {
+                                        "type": "string",
+                                        "example": "Meningkatkan produksi susu"
+                                    },
+                                    "kategori_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "is_stok": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100000
+                                    },
+                                    "no_tlp": {
+                                        "type": "string",
+                                        "example": "08123456789"
+                                    },
+                                    "alamat_overview": {
+                                        "type": "string",
+                                        "example": "Toko Pakan XYZ"
+                                    },
+                                    "alamat": {
+                                        "type": "string",
+                                        "example": "Jl. Raya No. 123, Jakarta"
+                                    },
+                                    "maps_link": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://maps.google.com/?q=loc:123,456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Supplier pakan berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuplierItem"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/suplier-pakan/{id}": {
+            "put": {
+                "tags": [
+                    "Supplier Pakan"
+                ],
+                "summary": "Mengupdate data supplier pakan",
+                "description": "Endpoint ini digunakan untuk mengupdate data supplier pakan berdasarkan ID.",
+                "operationId": "a1cc904685105fd9c456a6305636658e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID supplier pakan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image_url": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "url",
+                                            "example": "https://example.com/image.jpg"
+                                        }
+                                    },
+                                    "judul": {
+                                        "type": "string",
+                                        "example": "Pakan Sapi Premium"
+                                    },
+                                    "detail": {
+                                        "type": "string",
+                                        "example": "Pakan berkualitas tinggi untuk sapi perah"
+                                    },
+                                    "khasiat": {
+                                        "type": "string",
+                                        "example": "Meningkatkan produksi susu"
+                                    },
+                                    "kategori_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "is_stok": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100000
+                                    },
+                                    "no_tlp": {
+                                        "type": "string",
+                                        "example": "08123456789"
+                                    },
+                                    "alamat_overview": {
+                                        "type": "string",
+                                        "example": "Toko Pakan XYZ"
+                                    },
+                                    "alamat": {
+                                        "type": "string",
+                                        "example": "Jl. Raya No. 123, Jakarta"
+                                    },
+                                    "maps_link": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://maps.google.com/?q=loc:123,456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Supplier pakan berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuplierItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Supplier pakan tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Supplier Pakan tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Supplier Pakan"
+                ],
+                "summary": "Menghapus data supplier pakan",
+                "description": "Endpoint ini digunakan untuk menghapus data supplier pakan berdasarkan ID.",
+                "operationId": "f9c9dfe957e3cb089a7261c125f14119",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID supplier pakan",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Supplier pakan berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Supplier Pakan berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Supplier pakan tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Supplier Pakan tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ternak": {
+            "get": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Mengambil semua data ternak",
+                "description": "Endpoint ini digunakan untuk mengambil semua data ternak yang tersedia.",
+                "operationId": "c9ca4f5964eb347a780d6dd5c0ada6c6",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data ternak",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ternak"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Menyimpan ternak baru",
+                "description": "Endpoint ini digunakan untuk membuat data ternak baru.",
+                "operationId": "e157ca2b0dc822bce22eec0eaa8ee66a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "nama_ternak",
+                                    "tgl_mulai",
+                                    "hewan_id",
+                                    "ras_id",
+                                    "tujuan_ternak_id",
+                                    "usia",
+                                    "kondisi_ternak",
+                                    "jenis_kelamin",
+                                    "berat"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "user123"
+                                    },
+                                    "nama_ternak": {
+                                        "type": "string",
+                                        "example": "Sapi Perah"
+                                    },
+                                    "tgl_mulai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-08-20"
+                                    },
+                                    "hewan_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ras_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tujuan_ternak_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "usia": {
+                                        "type": "integer",
+                                        "example": 24
+                                    },
+                                    "kondisi_ternak": {
+                                        "type": "string",
+                                        "example": "Sehat"
+                                    },
+                                    "jenis_kelamin": {
+                                        "type": "string",
+                                        "example": "Betina"
+                                    },
+                                    "berat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500.5
+                                    },
+                                    "catatan": {
+                                        "type": "string",
+                                        "example": "Catatan tambahan"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ternak berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ternak"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ternak/{user_id}": {
+            "get": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Mengambil semua ternak berdasarkan user_id",
+                "description": "Endpoint ini用于 untuk mengambil semua data ternak milik pengguna tertentu berdasarkan user_id.",
+                "operationId": "af0dbfad5199a3a374d686e259ba38b5",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data ternak",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ternak"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ternak/{user_id}/{id}": {
+            "get": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Mengambil data ternak berdasarkan user_id dan id",
+                "description": "Endpoint ini digunakan untuk mengambil data ternak spesifik berdasarkan user_id dan id ternak.",
+                "operationId": "58d04212e4a53395431524e168a70382",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID ternak",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data ternak",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ternak"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ternak tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ternak tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Mengupdate data ternak",
+                "description": "Endpoint ini digunakan untuk mengupdate data ternak berdasarkan user_id dan id.",
+                "operationId": "340750f9796f1e266e2b00c29c03a41c",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID ternak",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_ternak": {
+                                        "type": "string",
+                                        "example": "Sapi Perah"
+                                    },
+                                    "tgl_mulai": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-08-20"
+                                    },
+                                    "hewan_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ras_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "tujuan_ternak_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "usia": {
+                                        "type": "integer",
+                                        "example": 24
+                                    },
+                                    "kondisi_ternak": {
+                                        "type": "string",
+                                        "example": "Sehat"
+                                    },
+                                    "jenis_kelamin": {
+                                        "type": "string",
+                                        "example": "Betina"
+                                    },
+                                    "berat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500.5
+                                    },
+                                    "catatan": {
+                                        "type": "string",
+                                        "example": "Catatan tambahan"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ternak berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ternak"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ternak tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ternak tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ternak"
+                ],
+                "summary": "Menghapus data ternak",
+                "description": "Endpoint ini digunakan untuk menghapus data ternak berdasarkan user_id dan id.",
+                "operationId": "18f3a58487762d01cd6355581ce64211",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID ternak",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ternak berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ternak berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ternak tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ternak tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ternak/tujuan/{user_id}": {
+            "get": {
+                "tags": [
+                    "Tujuan Ternak"
+                ],
+                "summary": "Mengambil semua tujuan ternak berdasarkan user_id",
+                "description": "Endpoint ini digunakan untuk mengambil semua data tujuan ternak milik pengguna tertentu berdasarkan user_id.",
+                "operationId": "2ebf88bf8ab7f67b2d9c12b0bb1bb47d",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data tujuan ternak",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TujuanTernak"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tujuan Ternak"
+                ],
+                "summary": "Mengupdate tujuan ternak",
+                "description": "Endpoint ini digunakan untuk mengupdate data tujuan ternak berdasarkan user_id.",
+                "operationId": "335f5bab1538c441fc7c674824a5008f",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Peternakan Sapi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tujuan ternak berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TujuanTernak"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tujuan ternak tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tujuan Ternak tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tujuan Ternak"
+                ],
+                "summary": "Menghapus tujuan ternak",
+                "description": "Endpoint ini digunakan untuk menghapus data tujuan ternak berdasarkan user_id.",
+                "operationId": "80d638a7b9e0b7b24a71701c98a286e4",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tujuan ternak berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tujuan Ternak berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tujuan ternak tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tujuan Ternak tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ternak/tujuan/{ Uuser_id}": {
+            "post": {
+                "tags": [
+                    "Tujuan Ternak"
+                ],
+                "summary": "Menyimpan tujuan ternak baru",
+                "description": "Endpoint ini digunakan untuk membuat data tujuan ternak baru berdasarkan user_id.",
+                "operationId": "7048336d127a6d33db7bbbb303109c95",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID pengguna (uid)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Peternakan Sapi"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tujuan ternak berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TujuanTernak"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tips/kategoris": {
+            "get": {
+                "tags": [
+                    "Kategori Tips"
+                ],
+                "summary": "Mengambil semua kategori tips",
+                "description": "Endpoint ini digunakan untuk mengambil semua data kategori tips yang tersedia.",
+                "operationId": "f91850f011564c28be61d384cd5adc89",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data kategori tips",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TipsKategori"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tips": {
+            "get": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Mengambil semua tips",
+                "description": "Endpoint ini digunakan untuk mengambil semua data tips yang tersedia.",
+                "operationId": "cfe1b5e9101d617af873a11aaca3c565",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data tips",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TipsItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Menyimpan tips baru",
+                "description": "Endpoint ini digunakan untuk membuat data tips baru.",
+                "operationId": "e58f13a791fb2d44c9ed88e28f3a550b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "image_url",
+                                    "judul",
+                                    "konten",
+                                    "kategori"
+                                ],
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "judul": {
+                                        "type": "string",
+                                        "example": "Tips Merawat Sapi"
+                                    },
+                                    "konten": {
+                                        "type": "string",
+                                        "example": "Pastikan sapi mendapatkan pakan yang cukup..."
+                                    },
+                                    "kategori": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Perawatan"
+                                        }
+                                    },
+                                    "kategori_detail": {
+                                        "type": "string",
+                                        "example": "Detail kategori"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tips berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipsItem"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tips/{id}": {
+            "get": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Mengambil detail tips berdasarkan ID",
+                "description": "Endpoint ini digunakan untuk mengambil data tips spesifik berdasarkan ID.",
+                "operationId": "a5d73c3f87b2be9b6483d6da40a9cbc6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID tips",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data tips",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipsItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tips tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tips tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Mengupdate data tips",
+                "description": "Endpoint ini digunakan untuk mengupdate data tips berdasarkan ID.",
+                "operationId": "442bf455820b27dff09fd1c2b3916514",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID tips",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "image_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "example": "https://example.com/image.jpg"
+                                    },
+                                    "judul": {
+                                        "type": "string",
+                                        "example": "Tips Merawat Sapi"
+                                    },
+                                    "konten": {
+                                        "type": "string",
+                                        "example": "Pastikan sapi mendapatkan pakan yang cukup..."
+                                    },
+                                    "kategori": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Perawatan"
+                                        }
+                                    },
+                                    "kategori_detail": {
+                                        "type": "string",
+                                        "example": "Detail kategori"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tips berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TipsItem"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tips tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tips tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validasi gagal"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Menghapus data tips",
+                "description": "Endpoint ini digunakan untuk menghapus data tips berdasarkan ID.",
+                "operationId": "26dd4d43381759bf5c4074fba7f5630f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID tips",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tips berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tips berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tips tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tips tidak ditemukan"
                                         }
                                     },
                                     "type": "object"
@@ -1062,6 +3617,166 @@
     },
     "components": {
         "schemas": {
+            "HargaPasarItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Sapi Holstein"
+                    },
+                    "harga_kg": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 50000
+                    },
+                    "kondisi": {
+                        "type": "string",
+                        "example": "Sehat"
+                    },
+                    "lokasi": {
+                        "type": "string",
+                        "example": "Jakarta"
+                    }
+                },
+                "type": "object"
+            },
+            "KonsultasiItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Dr. John Doe"
+                    },
+                    "kategori_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "harga": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 500000
+                    },
+                    "durasi": {
+                        "type": "string",
+                        "example": "1 jam"
+                    },
+                    "no_tlp": {
+                        "type": "string",
+                        "example": "08123456789"
+                    },
+                    "spesialis": {
+                        "type": "string",
+                        "example": "Dokter Hewan"
+                    },
+                    "lokasi_praktik": {
+                        "type": "string",
+                        "example": "Jakarta"
+                    },
+                    "pukul_mulai": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "08:00:00"
+                    },
+                    "pukul_akhir": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "17:00:00"
+                    },
+                    "pendidikan": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "S1 Kedokteran Hewan"
+                        }
+                    },
+                    "pengalaman": {
+                        "type": "string",
+                        "example": "5 tahun di klinik hewan"
+                    },
+                    "fokus_konsultasi": {
+                        "type": "string",
+                        "example": "Kesehatan sapi perah"
+                    },
+                    "kategori": {
+                        "$ref": "#/components/schemas/KonsultasiKategori"
+                    }
+                },
+                "type": "object"
+            },
+            "KonsultasiKategori": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Konsultasi Kesehatan Hewan"
+                    },
+                    "is_aktif": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "MAsset": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "user123"
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Sapi Holstein"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            },
+            "Hewan": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Sapi"
+                    },
+                    "icon_path": {
+                        "type": "string",
+                        "example": "/icons/sapi.png"
+                    },
+                    "is_aktif": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "JenisTugas": {
                 "properties": {
                     "id": {
@@ -1103,6 +3818,23 @@
                 },
                 "type": "object"
             },
+            "Ras": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Holstein"
+                    },
+                    "is_aktif": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "StatusTugas": {
                 "properties": {
                     "id": {
@@ -1116,6 +3848,26 @@
                     "is_aktif": {
                         "type": "boolean",
                         "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "TujuanTernak": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "user123"
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Peternakan Sapi"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
                     }
                 },
                 "type": "object"
@@ -1139,6 +3891,201 @@
                         "items": {
                             "$ref": "#/components/schemas/User"
                         }
+                    }
+                },
+                "type": "object"
+            },
+            "SuplierItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "url",
+                            "example": "https://example.com/image.jpg"
+                        }
+                    },
+                    "judul": {
+                        "type": "string",
+                        "example": "Pakan Sapi Premium"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "example": "Pakan berkualitas tinggi untuk sapi perah"
+                    },
+                    "khasiat": {
+                        "type": "string",
+                        "example": "Meningkatkan produksi susu"
+                    },
+                    "kategori_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_stok": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "harga": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 100000
+                    },
+                    "no_tlp": {
+                        "type": "string",
+                        "example": "08123456789"
+                    },
+                    "alamat_overview": {
+                        "type": "string",
+                        "example": "Toko Pakan XYZ"
+                    },
+                    "alamat": {
+                        "type": "string",
+                        "example": "Jl. Raya No. 123, Jakarta"
+                    },
+                    "maps_link": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://maps.google.com/?q=loc:123,456"
+                    },
+                    "kategori": {
+                        "$ref": "#/components/schemas/SuplierKategori"
+                    }
+                },
+                "type": "object"
+            },
+            "SuplierKategori": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Pakan Sapi"
+                    },
+                    "is_aktif": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "Keuangan": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "user123"
+                    },
+                    "is_pengeluaran": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "tgl_keuangan": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-08-20"
+                    },
+                    "nominal_total": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1000000
+                    },
+                    "dari_tujuan": {
+                        "type": "string",
+                        "example": "Pembelian pakan"
+                    },
+                    "aset_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "catatan": {
+                        "type": "string",
+                        "example": "Pembelian pakan untuk sapi"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "asset": {
+                        "$ref": "#/components/schemas/MAsset"
+                    }
+                },
+                "type": "object"
+            },
+            "Ternak": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tag_id": {
+                        "type": "string",
+                        "example": "TAG123"
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "example": "user123"
+                    },
+                    "nama_ternak": {
+                        "type": "string",
+                        "example": "Sapi Perah"
+                    },
+                    "tgl_mulai": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-08-20"
+                    },
+                    "hewan_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "ras_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tujuan_ternak_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "usia": {
+                        "type": "integer",
+                        "example": 24
+                    },
+                    "kondisi_ternak": {
+                        "type": "string",
+                        "example": "Sehat"
+                    },
+                    "jenis_kelamin": {
+                        "type": "string",
+                        "example": "Betina"
+                    },
+                    "berat": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 500.5
+                    },
+                    "catatan": {
+                        "type": "string",
+                        "example": "Catatan tambahan"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "hewan": {
+                        "$ref": "#/components/schemas/Hewan"
+                    },
+                    "ras": {
+                        "$ref": "#/components/schemas/Ras"
+                    },
+                    "tujuan_ternak": {
+                        "$ref": "#/components/schemas/TujuanTernak"
                     }
                 },
                 "type": "object"
@@ -1198,6 +4145,56 @@
                 },
                 "type": "object"
             },
+            "TipsItem": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "judul": {
+                        "type": "string",
+                        "example": "Tips Merawat Sapi"
+                    },
+                    "konten": {
+                        "type": "string",
+                        "example": "Pastikan sapi mendapatkan pakan yang cukup..."
+                    },
+                    "kategori": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Perawatan"
+                        }
+                    },
+                    "kategori_detail": {
+                        "type": "string",
+                        "example": "Detail kategori"
+                    }
+                },
+                "type": "object"
+            },
+            "TipsKategori": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama": {
+                        "type": "string",
+                        "example": "Perawatan"
+                    },
+                    "is_aktif": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "properties": {
                     "uid": {
@@ -1248,8 +4245,52 @@
     },
     "tags": [
         {
+            "name": "Asset",
+            "description": "Asset"
+        },
+        {
             "name": "Autentikasi",
             "description": "Autentikasi"
+        },
+        {
+            "name": "Harga Pasar",
+            "description": "Harga Pasar"
+        },
+        {
+            "name": "Keuangan",
+            "description": "Keuangan"
+        },
+        {
+            "name": "Kategori Konsultasi Pakar",
+            "description": "Kategori Konsultasi Pakar"
+        },
+        {
+            "name": "Konsultasi Pakar",
+            "description": "Konsultasi Pakar"
+        },
+        {
+            "name": "Kategori Supplier Pakan",
+            "description": "Kategori Supplier Pakan"
+        },
+        {
+            "name": "Supplier Pakan",
+            "description": "Supplier Pakan"
+        },
+        {
+            "name": "Ternak",
+            "description": "Ternak"
+        },
+        {
+            "name": "Tujuan Ternak",
+            "description": "Tujuan Ternak"
+        },
+        {
+            "name": "Kategori Tips",
+            "description": "Kategori Tips"
+        },
+        {
+            "name": "Tips",
+            "description": "Tips"
         },
         {
             "name": "Tugas",

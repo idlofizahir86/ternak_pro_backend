@@ -6,7 +6,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'TernakPro API Documentation',
             ],
 
             'routes' => [
@@ -48,6 +48,11 @@ return [
                     base_path('app'),
                 ],
             ],
+        ],
+    ],
+    'ui' => [
+        'display' => [
+            'dark_mode' => true,  // Aktifkan mode gelap
         ],
     ],
     'defaults' => [

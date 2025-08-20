@@ -7,6 +7,13 @@
     <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-32x32.png') }}" sizes="32x32"/>
     <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}" sizes="16x16"/>
     <style>
+    /* Menyembunyikan topbar Swagger UI */
+    .swagger-ui .topbar {
+        display: none;
+    }
+     .version-stamp {
+        display: none;
+    }
     html
     {
         box-sizing: border-box;
