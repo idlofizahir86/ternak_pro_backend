@@ -7,6 +7,7 @@ use App\Http\Controllers\TugasController;
 use App\Http\Controllers\TernakController;
 use App\Http\Controllers\TipsController;
 use App\Http\Controllers\HargaPasarController;
+use App\Http\Controllers\HewanController;
 use App\Http\Controllers\SuplierPakanController;
 use App\Http\Controllers\KonsultasiPakarController;
 use App\Http\Controllers\KeuanganController;
@@ -55,6 +56,13 @@ Route::prefix('v1')->group(function() {
     Route::post('/harga-pasar', [HargaPasarController::class, 'storeHargaPasar']);
     Route::put('/harga-pasar/{id}', [HargaPasarController::class, 'updateHargaPasar']);
     Route::delete('/harga-pasar/{id}', [HargaPasarController::class, 'destroyHargaPasar']);
+    
+    // Endpoint Hewan
+    Route::get('/hewan', [HewanController::class, 'allHewan']);
+    Route::get('/hewan/{id}', [HewanController::class, 'detailHewan']);
+    Route::post('/hewan', [HewanController::class, 'storeHewan']);
+    Route::put('/hewan/{id}', [HewanController::class, 'updateHewan']);
+    Route::delete('/hewan/{id}', [HewanController::class, 'destroyHewan']);
 
     // Endpoint Suplier Pakan
     Route::get('/suplier-pakan/kategoris', [SuplierPakanController::class, 'allKategoriSuplierPakan']);
