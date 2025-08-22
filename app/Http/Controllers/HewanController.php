@@ -11,7 +11,7 @@ class HewanController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="v1/api/hewan",
+     *     path="api/v1/hewan",
      *     summary="Get all Hewan records",
      *     tags={"Hewan"},
      *     @OA\Response(
@@ -43,7 +43,7 @@ class HewanController extends Controller
 
     /**
      * @OA\Get(
-     *     path="v1/api/hewan/{id}",
+     *     path="api/v1/hewan/{id}",
      *     summary="Get a specific Hewan by ID",
      *     tags={"Hewan"},
      *     @OA\Parameter(
@@ -89,7 +89,7 @@ class HewanController extends Controller
 
     /**
      * @OA\Post(
-     *     path="v1/api/hewan",
+     *     path="api/v1/hewan",
      *     summary="Create a new Hewan",
      *     tags={"Hewan"},
      *     @OA\RequestBody(
@@ -145,7 +145,7 @@ class HewanController extends Controller
 
     /**
      * @OA\Put(
-     *     path="v1/api/hewan/{id}",
+     *     path="api/v1/hewan/{id}",
      *     summary="Update an existing Hewan",
      *     tags={"Hewan"},
      *     @OA\Parameter(
@@ -220,7 +220,7 @@ class HewanController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="v1/api/hewan/{id}",
+     *     path="api/v1/hewan/{id}",
      *     summary="Delete a Hewan by ID",
      *     tags={"Hewan"},
      *     @OA\Parameter(

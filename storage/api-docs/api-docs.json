@@ -797,13 +797,13 @@
                 }
             }
         },
-        "v1/api/hewan": {
+        "api/v1/hewan": {
             "get": {
                 "tags": [
                     "Hewan"
                 ],
                 "summary": "Get all Hewan records",
-                "operationId": "6926c2e492d0977c0d1600160d94db89",
+                "operationId": "db72bd0e2c02bd4d7674bc25ff342b23",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -841,7 +841,7 @@
                     "Hewan"
                 ],
                 "summary": "Create a new Hewan",
-                "operationId": "97950c18991c04450f8b011dc6683b4d",
+                "operationId": "833ecd2d4048e84d54615724a2529945",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -915,13 +915,13 @@
                 }
             }
         },
-        "v1/api/hewan/{id}": {
+        "api/v1/hewan/{id}": {
             "get": {
                 "tags": [
                     "Hewan"
                 ],
                 "summary": "Get a specific Hewan by ID",
-                "operationId": "627ab016e43bcc39dba420af3f714820",
+                "operationId": "b735aef47a9e382d98596a8f6efa77ac",
                 "parameters": [
                     {
                         "name": "id",
@@ -983,7 +983,7 @@
                     "Hewan"
                 ],
                 "summary": "Update an existing Hewan",
-                "operationId": "0f4b27946cad1531a14996535890019e",
+                "operationId": "baf5e8485fd331f9b3a430a4bb9428e0",
                 "parameters": [
                     {
                         "name": "id",
@@ -1088,7 +1088,7 @@
                     "Hewan"
                 ],
                 "summary": "Delete a Hewan by ID",
-                "operationId": "c9715d8475ea1547d9a004c8a20c20fd",
+                "operationId": "939ba468200978e194270280ef1a26bd",
                 "parameters": [
                     {
                         "name": "id",
