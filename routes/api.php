@@ -93,10 +93,10 @@ Route::prefix('v1')->group(function() {
     Route::delete('/asset/{user_id}', [AssetController::class, 'destroyAsset']);
 
     // Endpoint Tipe Tugas
-    Route::get('/tugas/jenis/{user_id}', [TugasController::class, 'getJenisTugas']);
-    Route::post('/tugas/jenis/{user_id}', [TugasController::class, 'storeJenisTugas']);
-    Route::put('/tugas/jenis/{user_id}', [TugasController::class, 'updateJenisTugas']);
-    Route::delete('/tugas/jenis/{user_id}', [TugasController::class, 'destroyJenisTugas']);
+    Route::get('/jenis/tugas/{user_id}', [TugasController::class, 'getJenisTugas']);
+    Route::post('/jenis/tugas/{user_id}', [TugasController::class, 'storeJenisTugas']);
+    Route::put('/jenis/tugas/{user_id}', [TugasController::class, 'updateJenisTugas']);
+    Route::delete('/jenis/tugas/{user_id}', [TugasController::class, 'destroyJenisTugas']);
 
     // Endpoint Tujuan Ternak
     Route::get('/ternak/tujuan/{user_id}', [TernakController::class, 'getTujuanTernak']);

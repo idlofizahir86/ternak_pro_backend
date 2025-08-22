@@ -318,7 +318,7 @@ class TugasController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/tugas/jenis/{user_id}",
+     *     path="/api/v1/jenis/tugas/{user_id}",
      *     operationId="getJenisTugas",
      *     tags={"Jenis Tugas"},
      *     summary="Mengambil jenis tugas berdasarkan user_id",
@@ -361,7 +361,7 @@ class TugasController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/tugas/jenis/{user_id}",
+     *     path="/api/v1/jenis/tugas/{user_id}",
      *     operationId="storeJenisTugas",
      *     tags={"Jenis Tugas"},
      *     summary="Menyimpan jenis tugas baru",
@@ -415,7 +415,7 @@ class TugasController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/tugas/jenis/{user_id}",
+     *     path="/api/v1/jenis/tugas/{user_id}",
      *     operationId="updateJenisTugas",
      *     tags={"Jenis Tugas"},
      *     summary="Mengupdate jenis tugas berdasarkan user_id",
@@ -477,7 +477,7 @@ class TugasController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/tugas/jenis/{user_id}",
+     *     path="/api/v1/jenis/tugas/{user_id}",
      *     operationId="deleteJenisTugas",
      *     tags={"Jenis Tugas"},
      *     summary="Menghapus jenis tugas berdasarkan user_id",
