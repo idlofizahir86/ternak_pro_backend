@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MJenisTugas extends Model
 {
+    protected $table = 'm_jenis_tugas';
     protected $fillable = ['user_id', 'nama', 'icon_path'];
 
     public function user()
