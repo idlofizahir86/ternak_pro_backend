@@ -351,7 +351,12 @@ class TugasController extends Controller
     public function getJenisTugas($user_id)
     {
         $jenisTugas = MJenisTugas::where('user_id', $user_id)->get();
-        return response()->json($jenisTugas);
+
+        if ($jenisTugas) {
+            return response()->json($jenisTugas);
+        } else {
+            return response()->json(['message' => 'Jenis Tugas tidak ditemukan'], 404);
+        }
     }
 
     /**
