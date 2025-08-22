@@ -94,6 +94,7 @@ Route::prefix('v1')->group(function() {
 
     // Endpoint Tipe Tugas
     Route::get('/jenis/tugas/{user_id}', [TugasController::class, 'getJenisTugas']);
+    Route::get('/jenis/tugas/{user_id}/{id}', [TugasController::class, 'getDetailJenisTugas']);
     Route::post('/jenis/tugas/{user_id}', [TugasController::class, 'storeJenisTugas']);
     Route::put('/jenis/tugas/{user_id}', [TugasController::class, 'updateJenisTugas']);
     Route::delete('/jenis/tugas/{user_id}', [TugasController::class, 'destroyJenisTugas']);

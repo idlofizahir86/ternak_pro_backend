@@ -350,7 +350,62 @@ class TugasController extends Controller
      */
     public function getJenisTugas($user_id)
     {
-        $jenisTugas = MJenisTugas::where('user_id', $user_id)->get();
+        $listJenisTugas = MJenisTugas::where('user_id', $user_id)->get();
+
+        if ($listJenisTugas) {
+            return response()->json($listJenisTugas);
+        } else {
+            return response()->json(['message' => 'List Jenis Tugas tidak ditemukan'], 404);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/jenis/tugas/{user_id}/{id}",
+     *     summary="Get details of a specific Jenis Tugas",
+     *     description="Retrieves the details of a Jenis Tugas by user ID and task type ID.",
+     *     operationId="getDetailJenisTugas",
+     *     tags={"Jenis Tugas"},
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         description="ID of the user",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the Jenis Tugas",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="string", example="1"),
+     *             @OA\Property(property="user_id", type="string", example="user123"),
+     *             @OA\Property(property="nama", type="string", example="Pemberian Pakan"),
+     *             @OA\Property(property="icon_path", type="string", example="assets/home_assets/icons/ic_snack.png"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2025-08-23T12:20:00Z"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2025-08-23T12:20:00Z")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Jenis Tugas not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Jenis Tugas tidak ditemukan")
+     *         )
+     *     )
+     * )
+     */
+    public function getDetailJenisTugas($user_id, $id)
+    {
+        $jenisTugas = MJenisTugas::where('user_id', $user_id)->where('id', $id)->first();
 
         if ($jenisTugas) {
             return response()->json($jenisTugas);
