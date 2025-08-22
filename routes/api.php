@@ -13,27 +13,11 @@ use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\AssetController;
 
 
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/hello', function (Request $request) {
-    return response()->json([
-        'message' => 'Hello, this is a simple inline GET API!',
-        'status' => 'success',
-        'data' => [
-            'id' => 1,
-            'name' => 'John Doe'
-        ]
-    ], 200);
-});
-
-// Example protected route (requires authentication)
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1')->group(function() {
+
+    // Endpoint Auth
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
     // Endpoint Tugas
     Route::get('/tugas', [TugasController::class, 'allTugas']);
