@@ -209,33 +209,42 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Validate request data
+        // Validasi data request
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
+            'email_or_phone' => 'required|string',
             'password' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Validation failed',
+                'message' => 'Data yang dimasukkan tidak sesuai',
                 'errors' => $validator->errors(),
             ], 422);
         }
 
-        // Attempt to authenticate
-        $user = User::where('email', $request->email)->first();
+        // Cek apakah input email_or_phone berupa email atau nomor telepon
+        $user = null;
+        if (filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL)) {
+            // Jika input adalah email, cari user berdasarkan email
+            $user = User::where('email', $request->email_or_phone)->first();
+        } else {
+            // Jika input bukan email, cari user berdasarkan nomor telepon
+            $user = User::where('no_telepon', $request->email_or_phone)->first();
+        }
 
+        // Jika user tidak ditemukan atau password tidak cocok
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Invalid credentials',
+                'message' => 'Email/No Handphone atau Password salah',
             ], 401);
         }
 
-        // Generate Sanctum token
+        // Generate token dengan Sanctum
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // Kembalikan response login berhasil
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful',
@@ -244,10 +253,12 @@ class AuthController extends Controller
                     'uid' => $user->uid,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'no_telepon' => $user->no_telepon,
                     'role_id' => $user->role_id,
                 ],
                 'token' => $token,
             ],
         ], 200);
     }
+
 }

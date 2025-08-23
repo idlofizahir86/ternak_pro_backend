@@ -19,7 +19,7 @@ class StatusTugasSeeder extends Seeder
             'is_aktif' => true
         ]);
         MStatusTugas::create([
-            'nama' => 'Tertentu',
+            'nama' => 'Tertunda',
             'is_aktif' => true
         ]);
         MStatusTugas::create([

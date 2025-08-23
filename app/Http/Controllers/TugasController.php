@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TblTugas;
 use App\Models\MJenisTugas;
+use App\Models\MStatusTugas;
+use Carbon\Carbon;
+
 
 /**
  * @OA\SecurityScheme(
@@ -83,6 +86,25 @@ class TugasController extends Controller
     public function tugasUserAll($user_id)
     {
         $tugas = TblTugas::where('user_id', $user_id)->get();
+        $tugasData = [];
+        foreach ($tugas as $key => $value) {
+            $jenisTugas = MJenisTugas::where('user_id',$user_id)
+                ->where('id', $value->jenis_tugas_id)->first();
+            $nama_tugas = $jenisTugas->nama;
+            $icon_path = $jenisTugas->icon_path;
+            $status_tugas = MStatusTugas::where('id', $value->status_tugas_id)->first()->nama;
+            $eachTugas = [
+                    'id_tugas' => $value->id,
+                    'nama_tugas' => $nama_tugas,
+                    'icon_path' => $icon_path,
+                    'status_tugas' => $status_tugas,
+                    'waktu_tugas' => Carbon::parse($value->waktu_tugas)->format('H:i'), // Mengubah format waktu
+                    'catatan' => $value->catatan
+                ];
+            $tugasData[] = $eachTugas; // Menambahkan jenis_tugas_id ke dalam array
+        }
+
+        return response()->json($tugasData); // Mengembalikan array tugasData setelah iterasi selesai
         return response()->json($tugas);
     }
 
