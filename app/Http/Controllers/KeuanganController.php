@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MAsset;
 use Illuminate\Http\Request;
 use App\Models\TblKeuangan;
+use Carbon\Carbon;
 
 class KeuanganController extends Controller
 {
@@ -74,12 +76,29 @@ class KeuanganController extends Controller
      *     )
      * )
      */
-    public function dataKeuanganUser($tipe, $user_id)
+    public function dataKeuanganUser($user_id)
     {
         $keuangan = TblKeuangan::where('user_id', $user_id)
-                               ->where('is_pengeluaran', $tipe === 'pengeluaran' ? true : false)
                                ->get();
-        return response()->json($keuangan);
+        $keuanganData = [];
+        foreach ($keuangan as $key => $value) {
+            $aset = MAsset::where('user_id',$user_id)
+                ->where('id', $value->aset_id)->first();
+            $nama_aset = $aset->nama;
+            $eachKeuangan = [
+                    'id_keuangan' => $value->id,
+                    'is_pengeluaran' => $value->is_pengeluaran,
+                    'nominal_total' => $value->nominal_total,
+                    'dari_tujuan' => $value->dari_tujuan,
+                    'aset_id' => $value->aset_id,
+                    'nama_aset' => $nama_aset,
+                    'tgl_keuangan' => Carbon::parse($value->tgl_keuangan)->format('Y-m-d'),
+                    'catatan' => $value->catatan
+                ];
+            $keuanganData[] = $eachKeuangan; // Menambahkan jenis_tugas_id ke dalam array
+        }
+
+        return response()->json($keuanganData); // Mengembalikan array keuanganData setelah iterasi selesai
     }
 
     /**

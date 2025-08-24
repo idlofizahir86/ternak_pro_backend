@@ -89,7 +89,7 @@ Route::prefix('v1')->group(function() {
 
     // Endpoint Keuangan
     Route::get('/keuangan/{tipe}/total/{user_id}', [KeuanganController::class, 'totalKeuangan']);
-    Route::get('/keuangan/{tipe}/{user_id}', [KeuanganController::class, 'dataKeuanganUser']);
+    Route::get('/keuangan/{user_id}', [KeuanganController::class, 'dataKeuanganUser']);
     Route::post('/keuangan', [KeuanganController::class, 'storeKeuangan']);
     Route::put('/keuangan/{id}', [KeuanganController::class, 'updateKeuangan']);
     Route::delete('/keuangan/{id}', [KeuanganController::class, 'destroyKeuangan']);
