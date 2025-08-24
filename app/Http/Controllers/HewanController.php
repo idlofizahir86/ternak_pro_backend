@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MHewan;
+use App\Models\MRas;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Annotations as OA;
@@ -34,7 +35,7 @@ class HewanController extends Controller
     public function allHewan(): JsonResponse
     {
         try {
-            $hewan = MHewan::all();
+            $hewan = MHewan::where('is_aktif', true)->get();
             return response()->json($hewan, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Internal server error'], 500);
@@ -260,6 +261,38 @@ class HewanController extends Controller
 
             $hewan->delete();
             return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Internal server error'], 500);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="api/v1/ras",
+     *     summary="Get all Hewan records",
+     *     tags={"Hewan"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Ras")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Internal server error")
+     *         )
+     *     )
+     * )
+     */
+    public function allRas(): JsonResponse
+    {
+        try {
+            $hewan = MRas::where('is_aktif', true)->get();
+            return response()->json($hewan, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Internal server error'], 500);
         }

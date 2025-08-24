@@ -322,7 +322,7 @@ class TernakController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/ternak/tujuan/{user_id}",
+     *     path="/api/v1/tujuan/ternak/{user_id}",
      *     summary="Mengambil semua tujuan ternak berdasarkan user_id",
      *     description="Endpoint ini digunakan untuk mengambil semua data tujuan ternak milik pengguna tertentu berdasarkan user_id.",
      *     tags={"Tujuan Ternak"},
@@ -343,7 +343,7 @@ class TernakController extends Controller
      *     )
      * )
      */
-    public function gotTujuanTernak($user_id)
+    public function getTujuanTernak($user_id)
     {
         $tujuanTernak = MTujuanTernak::where('user_id', $user_id)->get();
         return response()->json($tujuanTernak);
@@ -351,7 +351,7 @@ class TernakController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/ternak/tujuan/{ Uuser_id}",
+     *     path="/api/v1/tujuan/ternak/{user_id}",
      *     summary="Menyimpan tujuan ternak baru",
      *     description="Endpoint ini digunakan untuk membuat data tujuan ternak baru berdasarkan user_id.",
      *     tags={"Tujuan Ternak"},
@@ -400,7 +400,7 @@ class TernakController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/ternak/tujuan/{user_id}",
+     *     path="/api/v1/tujuan/ternak/{user_id}",
      *     summary="Mengupdate tujuan ternak",
      *     description="Endpoint ini digunakan untuk mengupdate data tujuan ternak berdasarkan user_id.",
      *     tags={"Tujuan Ternak"},
@@ -458,7 +458,7 @@ class TernakController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/ternak/tujuan/{user_id}",
+     *     path="/api/v1/tujuan/ternak/{user_id}",
      *     summary="Menghapus tujuan ternak",
      *     description="Endpoint ini digunakan untuk menghapus data tujuan ternak berdasarkan user_id.",
      *     tags={"Tujuan Ternak"},

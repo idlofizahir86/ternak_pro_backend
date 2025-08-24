@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             MRasSeeder::class,
             StatusTugasSeeder::class,
             PengulanganTugasSeeder::class,
+            TipsItemSeeder::class,
             // Tambahkan seeder lain seperti StatusTugasSeeder jika ada
         ]);
     }

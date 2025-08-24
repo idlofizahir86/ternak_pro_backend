@@ -31,7 +31,7 @@ Route::prefix('v1')->group(function() {
     // TODO: <MASIH DIPIKIRAN DULU>
     // Endpoint Tugas List Pengulangan
     Route::get('/pengulangan/tugas', [TugasController::class, 'pengulanganTugas']);
-    
+
     // Endpoint Tugas List Status
     Route::get('/status/tugas', [TugasController::class, 'statusTugas']);
 
@@ -69,6 +69,9 @@ Route::prefix('v1')->group(function() {
     Route::put('/hewan/{id}', [HewanController::class, 'updateHewan']);
     Route::delete('/hewan/{id}', [HewanController::class, 'destroyHewan']);
 
+    // Endpoint Hewan
+    Route::get('/ras', [HewanController::class, 'allRas']);
+
     // Endpoint Suplier Pakan
     Route::get('/suplier-pakan/kategoris', [SuplierPakanController::class, 'allKategoriSuplierPakan']);
     Route::get('/suplier-pakan', [SuplierPakanController::class, 'allSuplierPakan']);
@@ -105,9 +108,9 @@ Route::prefix('v1')->group(function() {
     Route::delete('/jenis/tugas/{user_id}', [TugasController::class, 'destroyJenisTugas']);
 
     // Endpoint Tujuan Ternak
-    Route::get('/ternak/tujuan/{user_id}', [TernakController::class, 'getTujuanTernak']);
-    Route::post('/ternak/tujuan/{user_id}', [TernakController::class, 'storeTujuanTernak']);
-    Route::put('/ternak/tujuan/{user_id}', [TernakController::class, 'updateTujuanTernak']);
-    Route::delete('/ternak/tujuan/{user_id}', [TernakController::class, 'destroyTujuanTernak']);
-    
+    Route::get('/tujuan/ternak/{user_id}', [TernakController::class, 'getTujuanTernak']);
+    Route::post('/tujuan/ternak/{user_id}', [TernakController::class, 'storeTujuanTernak']);
+    Route::put('/tujuan/ternak/{user_id}', [TernakController::class, 'updateTujuanTernak']);
+    Route::delete('/tujuan/ternak/{user_id}', [TernakController::class, 'destroyTujuanTernak']);
+
 });

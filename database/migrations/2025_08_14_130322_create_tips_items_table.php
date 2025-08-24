@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image_url');
             $table->string('judul');
+            $table->string('author');
             $table->mediumText('konten');
             $table->json('kategori');
             $table->string('kategori_detail');
