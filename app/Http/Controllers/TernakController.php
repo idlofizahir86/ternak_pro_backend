@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MHewan;
 use Illuminate\Http\Request;
 use App\Models\TblTernak;
 use App\Models\MTujuanTernak;
+use Carbon\Carbon;
 
 
 class TernakController extends Controller
@@ -34,8 +36,8 @@ class TernakController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/ternak/{user_id}",
-     *     summary="Mengambil semua ternak berdasarkan user_id",
-     *     description="Endpoint ini用于 untuk mengambil semua data ternak milik pengguna tertentu berdasarkan user_id.",
+     *     summary="Mengambil semua data ternak berdasarkan user_id",
+     *     description="Endpoint ini digunakan untuk mengambil semua data ternak milik pengguna tertentu berdasarkan user_id.",
      *     tags={"Ternak"},
      *     @OA\Parameter(
      *         name="user_id",
@@ -57,7 +59,28 @@ class TernakController extends Controller
     public function ternakUserAll($user_id)
     {
         $ternak = TblTernak::where('user_id', $user_id)->get();
-        return response()->json($ternak);
+        $ternakData = [];
+        foreach ($ternak as $key => $value) {
+            $hewan = MHewan::where('id', $value->hewan_id)->first();
+            $nama_hewan = $hewan->nama;
+            $icon_path = $hewan->icon_path;
+            $eachTernak = [
+                    'id_ternak' => $value->id,
+                    'tag_id' => $value->tag_id,
+                    'nama_ternak' => $value->nama_ternak,
+                    'jenis_hewan' => $nama_hewan,
+                    'icon_path' => $icon_path,
+                    'berat' => $value->berat,
+                    'usia' => $value->usia,
+                    'kondisi_ternak' => $value->kondisi_ternak,
+                    'jenis_kelamin' => $value->jenis_kelamin,
+                    'tgl_mulai' => Carbon::parse($value->tgl_mulai)->format('Y-m-d'),
+                    'catatan' => $value->catatan
+                ];
+            $ternakData[] = $eachTernak; // Menambahkan jenis_ternak_id ke dalam array
+        }
+
+        return response()->json($ternakData); // Mengembalikan array tugasData setelah iterasi selesai
     }
 
     /**

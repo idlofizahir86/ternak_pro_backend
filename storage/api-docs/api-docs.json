@@ -2236,6 +2236,7 @@
                             "schema": {
                                 "required": [
                                     "user_id",
+                                    "tag_id",
                                     "nama_ternak",
                                     "tgl_mulai",
                                     "hewan_id",
@@ -2250,6 +2251,10 @@
                                     "user_id": {
                                         "type": "string",
                                         "example": "user123"
+                                    },
+                                    "tag_id": {
+                                        "type": "string",
+                                        "example": "Sapi Ke1"
                                     },
                                     "nama_ternak": {
                                         "type": "string",
@@ -2337,8 +2342,8 @@
                 "tags": [
                     "Ternak"
                 ],
-                "summary": "Mengambil semua ternak berdasarkan user_id",
-                "description": "Endpoint ini用于 untuk mengambil semua data ternak milik pengguna tertentu berdasarkan user_id.",
+                "summary": "Mengambil semua data ternak berdasarkan user_id",
+                "description": "Endpoint ini digunakan untuk mengambil semua data ternak milik pengguna tertentu berdasarkan user_id.",
                 "operationId": "af0dbfad5199a3a374d686e259ba38b5",
                 "parameters": [
                     {
@@ -3194,7 +3199,7 @@
                 }
             }
         },
-        "/tugas": {
+        "/api/v1/tugas": {
             "get": {
                 "tags": [
                     "Tugas"
@@ -3340,7 +3345,99 @@
                 ]
             }
         },
-        "/tugas/{user_id}": {
+        "/api/v1/pengulangan/tugas": {
+            "get": {
+                "tags": [
+                    "Tugas"
+                ],
+                "summary": "Mengambil semua pengulangan yang bisa dilakukan",
+                "description": "Mengembalikan daftar semua tugas pengulangan yang tersedia di sistem.",
+                "operationId": "getPengulanganTugas",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil daftar pengulangan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PengulanganTugas"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Terjadi kesalahan pada server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tugas/status": {
+            "get": {
+                "tags": [
+                    "Tugas"
+                ],
+                "summary": "Mengambil semua status tugas",
+                "description": "Mengembalikan daftar semua status tugas yang tersedia di sistem.",
+                "operationId": "getStatusTugas",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil daftar status tugas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/StatusTugas"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Terjadi kesalahan pada server"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tugas/{user_id}": {
             "get": {
                 "tags": [
                     "Tugas"
@@ -3398,7 +3495,7 @@
                 ]
             }
         },
-        "/tugas/{user_id}/{id}": {
+        "/api/v1/tugas/{user_id}/{id}": {
             "get": {
                 "tags": [
                     "Tugas"
@@ -3413,7 +3510,7 @@
                         "description": "ID pengguna (user_id)",
                         "required": true,
                         "schema": {
-                            "type": "integer",
+                            "type": "string",
                             "example": 123
                         }
                     },
@@ -3664,7 +3761,7 @@
                 ]
             }
         },
-        "/tugas/jenis/{user_id}": {
+        "/api/v1/jenis/tugas/{user_id}": {
             "get": {
                 "tags": [
                     "Jenis Tugas"
@@ -3954,6 +4051,92 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/jenis/tugas/{user_id}/{id}": {
+            "get": {
+                "tags": [
+                    "Jenis Tugas"
+                ],
+                "summary": "Get details of a specific Jenis Tugas",
+                "description": "Retrieves the details of a Jenis Tugas by user ID and task type ID.",
+                "operationId": "getDetailJenisTugas",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Jenis Tugas",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "example": "user123"
+                                        },
+                                        "nama": {
+                                            "type": "string",
+                                            "example": "Pemberian Pakan"
+                                        },
+                                        "icon_path": {
+                                            "type": "string",
+                                            "example": "assets/home_assets/icons/ic_snack.png"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-08-23T12:20:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-08-23T12:20:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Jenis Tugas not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Jenis Tugas tidak ditemukan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -4364,7 +4547,7 @@
             "Ternak": {
                 "properties": {
                     "id": {
-                        "type": "integer",
+                        "type": "string",
                         "example": 1
                     },
                     "tag_id": {
