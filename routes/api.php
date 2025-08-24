@@ -29,8 +29,13 @@ Route::prefix('v1')->group(function() {
     Route::delete('/tugas/{user_id}/{id}', [TugasController::class, 'destroyTugas']);
 
     // TODO: <MASIH DIPIKIRAN DULU>
-    // Endpoint Tugas Pengulangan
+    // Endpoint Tugas List Pengulangan
     Route::get('/pengulangan/tugas', [TugasController::class, 'pengulanganTugas']);
+    
+    // Endpoint Tugas List Status
+    Route::get('/status/tugas', [TugasController::class, 'statusTugas']);
+
+
     // Route::post('/tugas', [DummyController::class, 'storeTugas']);
     // Route::put('/tugas/pengulangan/{user_id}/{tugas_id}/{id}', [DummyController::class, 'updatePengulanganTugas']);
     // Route::delete('/tugas/{user_id}/{id}', [DummyController::class, 'destroyTugas']);

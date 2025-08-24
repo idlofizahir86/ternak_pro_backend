@@ -54,7 +54,7 @@ class TugasController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/tugas/pengulangan",
+     *     path="/api/v1/pengulangan/tugas",
      *     operationId="getPengulanganTugas",
      *     tags={"Tugas"},
      *     summary="Mengambil semua pengulangan yang bisa dilakukan",
@@ -80,6 +80,37 @@ class TugasController extends Controller
     public function pengulanganTugas()
     {
         $tugas = MPengulanganTugas::where('is_aktif', true)->get();
+        return response()->json($tugas);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/tugas/status",
+     *     operationId="getStatusTugas",
+     *     tags={"Tugas"},
+     *     summary="Mengambil semua status tugas",
+     *     description="Mengembalikan daftar semua status tugas yang tersedia di sistem.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Berhasil mengambil daftar status tugas",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/StatusTugas")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Kesalahan server",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Terjadi kesalahan pada server")
+     *         )
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+     */
+    public function statusTugas()
+    {
+        $tugas = MStatusTugas::where('is_aktif', true)->get();
         return response()->json($tugas);
     }
 
