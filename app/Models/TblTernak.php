@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  *     schema="Ternak",
  *     type="object",
- *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="id", type="string", example=1),
  *     @OA\Property(property="tag_id", type="string", example="TAG123"),
  *     @OA\Property(property="user_id", type="string", example="user123"),
  *     @OA\Property(property="nama_ternak", type="string", example="Sapi Perah"),

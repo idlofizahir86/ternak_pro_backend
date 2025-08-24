@@ -114,8 +114,9 @@ class TernakController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"user_id", "nama_ternak", "tgl_mulai", "hewan_id", "ras_id", "tujuan_ternak_id", "usia", "kondisi_ternak", "jenis_kelamin", "berat"},
+     *             required={"user_id", "tag_id", "nama_ternak", "tgl_mulai", "hewan_id", "ras_id", "tujuan_ternak_id", "usia", "kondisi_ternak", "jenis_kelamin", "berat"},
      *             @OA\Property(property="user_id", type="string", example="user123"),
+     *             @OA\Property(property="tag_id", type="string", example="Sapi Ke1"),
      *             @OA\Property(property="nama_ternak", type="string", example="Sapi Perah"),
      *             @OA\Property(property="tgl_mulai", type="string", format="date", example="2025-08-20"),
      *             @OA\Property(property="hewan_id", type="integer", example=1),
@@ -149,9 +150,9 @@ class TernakController extends Controller
             'user_id' => 'required|exists:users,uid',
             'nama_ternak' => 'required|string',
             'tgl_mulai' => 'required|date',
-            'hewan_id' => ' vostri|exists:m_hewan,id',
+            'hewan_id' => ' required|exists:m_hewans,id',
             'ras_id' => 'required|exists:m_ras,id',
-            'tujuan_ternak_id' => 'required|exists:m_tujuan_ternak,id',
+            'tujuan_ternak_id' => 'required|exists:m_tujuan_ternaks,id',
             'usia' => 'required|integer',
             'kondisi_ternak' => 'required|string',
             'jenis_kelamin' => 'required|string',

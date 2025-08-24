@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TblTugas;
 use App\Models\MJenisTugas;
+use App\Models\MPengulanganTugas;
 use App\Models\MStatusTugas;
 use Carbon\Carbon;
 
@@ -48,6 +49,37 @@ class TugasController extends Controller
     public function allTugas()
     {
         $tugas = TblTugas::all();
+        return response()->json($tugas);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/tugas/pengulangan",
+     *     operationId="getPengulanganTugas",
+     *     tags={"Tugas"},
+     *     summary="Mengambil semua pengulangan yang bisa dilakukan",
+     *     description="Mengembalikan daftar semua tugas pengulangan yang tersedia di sistem.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Berhasil mengambil daftar pengulangan",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/PengulanganTugas")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Kesalahan server",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Terjadi kesalahan pada server")
+     *         )
+     *     ),
+     *     security={{"sanctum": {}}}
+     * )
+     */
+    public function pengulanganTugas()
+    {
+        $tugas = MPengulanganTugas::where('is_aktif', true)->get();
         return response()->json($tugas);
     }
 
@@ -98,6 +130,7 @@ class TugasController extends Controller
                     'nama_tugas' => $nama_tugas,
                     'icon_path' => $icon_path,
                     'status_tugas' => $status_tugas,
+                    'tgl_tugas' => Carbon::parse($value->tgl_tugas)->format('Y-m-d'),
                     'waktu_tugas' => Carbon::parse($value->waktu_tugas)->format('H:i'), // Mengubah format waktu
                     'catatan' => $value->catatan
                 ];
@@ -105,7 +138,6 @@ class TugasController extends Controller
         }
 
         return response()->json($tugasData); // Mengembalikan array tugasData setelah iterasi selesai
-        return response()->json($tugas);
     }
 
     /**

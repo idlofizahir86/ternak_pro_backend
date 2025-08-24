@@ -30,7 +30,7 @@ Route::prefix('v1')->group(function() {
 
     // TODO: <MASIH DIPIKIRAN DULU>
     // Endpoint Tugas Pengulangan
-    // Route::get('/tugas/pengulangan/{user_id}/{tugas_id}/{id}', [DummyController::class, 'pengulanganTugasUser']);
+    Route::get('/tugas/pengulangan', [TugasController::class, 'pengulanganTugas']);
     // Route::post('/tugas', [DummyController::class, 'storeTugas']);
     // Route::put('/tugas/pengulangan/{user_id}/{tugas_id}/{id}', [DummyController::class, 'updatePengulanganTugas']);
     // Route::delete('/tugas/{user_id}/{id}', [DummyController::class, 'destroyTugas']);
