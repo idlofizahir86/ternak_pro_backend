@@ -121,7 +121,7 @@ Route::prefix('v1')->group(function() {
         
         // Conversation history
         Route::get('/ai/conversations', [AIChatController::class, 'getConversations']);
-        Route::get('/ai/conversation/{conversationId}', [AIChatController::class, 'getConversation']);
-        Route::delete('/ai/conversation/{conversationId}', [AIChatController::class, 'deleteConversation']);
+        Route::get('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'getConversation']);
+        Route::delete('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'deleteConversation']);
     });
 });

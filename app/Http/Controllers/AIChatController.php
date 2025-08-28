@@ -120,10 +120,12 @@ class AIChatController extends Controller
      */
     public function startNewConversation(Request $request)
     {
-        $user = auth()->user();
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,uid',
+        ]);
         
         $conversation = Conversation::create([
-            'user_id' => $user->id,
+            'user_id' => $validated['user_id'],
             'title' => 'Percakapan Baru'
         ]);
         
@@ -136,11 +138,13 @@ class AIChatController extends Controller
     /**
      * Get user's conversations
      */
-    public function getConversations()
+    public function getConversations(Request $request)
     {
-        $user = auth()->user();
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,uid',
+        ]);
         
-        $conversations = Conversation::where('user_id', $user->id)
+        $conversations = Conversation::where('user_id', $validated['user_id'])
             ->orderBy('updated_at', 'desc')
             ->get();
         
@@ -165,11 +169,9 @@ class AIChatController extends Controller
     /**
      * Delete conversation
      */
-    public function deleteConversation($conversationId)
-    {
-        $user = auth()->user();
-        
-        $conversation = Conversation::where('user_id', $user->id)
+    public function deleteConversation($userId, $conversationId)
+    {        
+        $conversation = Conversation::where('user_id', $userId)
             ->findOrFail($conversationId);
         
         $conversation->delete();
