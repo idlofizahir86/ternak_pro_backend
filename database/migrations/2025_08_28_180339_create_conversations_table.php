@@ -6,18 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateConversationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('user_uid'); // Sesuai dengan primary key users
             $table->string('title');
             $table->timestamps();
+            
+            // Foreign key yang benar
+            $table->foreign('user_uid')
+                  ->references('uid')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
 
         Schema::create('messages', function (Blueprint $table) {
@@ -30,11 +31,6 @@ class CreateConversationsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('messages');
