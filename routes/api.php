@@ -120,7 +120,7 @@ Route::prefix('v1')->group(function() {
         Route::post('/ai/chat/new', [AIChatController::class, 'startNewConversation']);
         
         // Conversation history
-        Route::get('/ai/conversations', [AIChatController::class, 'getConversations']);
+        Route::post('/ai/conversations', [AIChatController::class, 'getConversations']);
         Route::get('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'getConversation']);
         Route::delete('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'deleteConversation']);
     });
