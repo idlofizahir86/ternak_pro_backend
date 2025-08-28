@@ -35,7 +35,7 @@ class AIChatController extends Controller
             // Get or create conversation
             if (empty($validated['conversation_id'])) {
                 $conversation = Conversation::create([
-                    'user_id' => $user->id,
+                    'user_id' => $validated['user_id'],
                     'title' => substr($validated['message'], 0, 50) . '...'
                 ]);
             } else {
@@ -150,11 +150,10 @@ class AIChatController extends Controller
     /**
      * Get specific conversation with messages
      */
-    public function getConversation($conversationId)
+    public function getConversation($userId, $conversationId)
     {
-        $user = auth()->user();
         
-        $conversation = Conversation::where('user_id', $user->id)
+        $conversation = Conversation::where('user_id', $userId)
             ->with(['messages' => function($query) {
                 $query->orderBy('created_at', 'asc');
             }])
