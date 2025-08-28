@@ -39,7 +39,7 @@ class AIChatController extends Controller
                     'title' => substr($validated['message'], 0, 50) . '...'
                 ]);
             } else {
-                $conversation = Conversation::where('user_id', $user->id)
+                $conversation = Conversation::where('user_id', $validated['user_id'])
                     ->findOrFail($validated['conversation_id']);
             }
             
