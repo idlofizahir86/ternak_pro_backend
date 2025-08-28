@@ -24,6 +24,7 @@ class AIChatController extends Controller
     public function sendMessage(Request $request)
     {
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,uid',
             'message' => 'required|string',
             'conversation_id' => 'nullable|exists:conversations,id'
         ]);
