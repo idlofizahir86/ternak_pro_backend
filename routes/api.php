@@ -12,6 +12,7 @@ use App\Http\Controllers\SuplierPakanController;
 use App\Http\Controllers\KonsultasiPakarController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AIChatController;
 
 
 Route::prefix('v1')->group(function() {
@@ -113,4 +114,14 @@ Route::prefix('v1')->group(function() {
     Route::put('/tujuan/ternak/{user_id}', [TernakController::class, 'updateTujuanTernak']);
     Route::delete('/tujuan/ternak/{user_id}', [TernakController::class, 'destroyTujuanTernak']);
 
+    Route::middleware('auth:sanctum')->group(function () {
+        // Chat routes
+        Route::post('/ai/chat', [AIChatController::class, 'sendMessage']);
+        Route::post('/ai/chat/new', [AIChatController::class, 'startNewConversation']);
+        
+        // Conversation history
+        Route::get('/ai/conversations', [AIChatController::class, 'getConversations']);
+        Route::get('/ai/conversation/{conversationId}', [AIChatController::class, 'getConversation']);
+        Route::delete('/ai/conversation/{conversationId}', [AIChatController::class, 'deleteConversation']);
+    });
 });
