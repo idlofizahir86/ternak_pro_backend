@@ -10,7 +10,7 @@ class CreateConversationsTable extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('user_uid'); // Sesuai dengan primary key users
+            $table->string('user_id'); // Sesuai dengan primary key users
             $table->string('title');
             $table->timestamps();
             
