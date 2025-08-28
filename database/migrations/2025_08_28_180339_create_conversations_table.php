@@ -15,7 +15,7 @@ class CreateConversationsTable extends Migration
             $table->timestamps();
             
             // Foreign key yang benar
-            $table->foreign('user_uid')
+            $table->foreign('user_id')
                   ->references('uid')
                   ->on('users')
                   ->onDelete('cascade');
