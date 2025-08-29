@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
         question.addEventListener('click', () => {
             const isActive = answer.classList.contains('active');
 
-            // Menutup semua item FAQ lainnya
+            // Tutup semua item FAQ lain
             faqItems.forEach(otherItem => {
                 otherItem.querySelector('.faq-answer').classList.remove('active');
                 otherItem.querySelector('.dropdown-icon').classList.remove('rotated');
             });
 
-            // Membuka atau menutup item yang diklik
+            // Buka/tutup item yang diklik
             if (!isActive) {
                 answer.classList.add('active');
                 icon.classList.add('rotated');
@@ -23,15 +23,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // 🔽 Buka otomatis FAQ pertama saat load
+    if (faqItems.length > 0) {
+        const firstAnswer = faqItems[0].querySelector('.faq-answer');
+        const firstIcon = faqItems[0].querySelector('.dropdown-icon');
+        firstAnswer.classList.add('active');
+        firstIcon.classList.add('rotated');
+    }
+
     // Hamburger menu functionality
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        navB.classList.toggle('active');
     });
 });
+
 
 // Fungsi untuk menyesuaikan ukuran testimonial secara dinamis
 function adjustTestimonials() {
@@ -75,6 +83,24 @@ function adjustTestimonials() {
         }
     }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector(".navbar");
+
+    window.addEventListener("scroll", function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // scroll ke bawah → sembunyikan navbar
+            navbar.style.top = "-80px"; // sesuaikan tinggi navbar
+        } else {
+            // scroll ke atas → tampilkan navbar
+            navbar.style.top = "0";
+        }
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // biar gak negatif
+    }, false);
+});
 
 // Panggil fungsi saat halaman dimuat dan diresize
 window.addEventListener('load', adjustTestimonials);
