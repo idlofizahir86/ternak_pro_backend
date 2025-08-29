@@ -6,8 +6,8 @@
     <title>TernakPro | Your Smart Farming Partner</title>
     <link rel="icon" type="image/png" href="{{ asset('assets/icon_ternakpro.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/slider.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/slider.css') }}?v={{ time() }}">
 </head>
 <body> 
      {{-- <div class="size-indicator" id="sizeIndicator">Lebar: <span id="widthValue">0</span>px</div> --}}
@@ -442,6 +442,7 @@
         </div>
     </footer>
 
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}?v={{ time() }}"></script>
+    
 </body>
 </html>
