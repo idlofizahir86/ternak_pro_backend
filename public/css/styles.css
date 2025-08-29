@@ -895,11 +895,9 @@ svg {
         position: relative;
         transform: none;
         left: auto;
-        bottom: auto;
         flex-direction: column;
         width: 100%;
         gap: 1rem;
-
         gap: 1rem;
         width: 100%;
         padding: 0 5%;
