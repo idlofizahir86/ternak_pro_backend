@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Hamburger menu functionality
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    const navButtons = document.querySelector('.nav-buttons');
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
@@ -42,7 +41,7 @@ function adjustTestimonials() {
     const containerWidth = container.offsetWidth;
     
     // Update indicator
-    document.getElementById('widthValue').textContent = containerWidth;
+    // document.getElementById('widthValue').textContent = containerWidth;
     
     // Jika container terlalu sempit untuk menampung semua kartu dengan skala yang ditentukan
     if (containerWidth < 900) {

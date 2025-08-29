@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="{{ asset('css/slider.css') }}">
 </head>
 <body> 
-     <div class="size-indicator" id="sizeIndicator">Lebar: <span id="widthValue">0</span>px</div>
+     {{-- <div class="size-indicator" id="sizeIndicator">Lebar: <span id="widthValue">0</span>px</div> --}}
     <!-- Navbar Transparan -->
         <nav class="navbar">
         <div class="logo">
-            <img src="{{ asset('assets/logo.png') }}" alt="TernakPro Logo"> <!-- Ganti dengan logo asli jika ada -->
+            <img src="{{ asset('assets/logo.png') }}" href="/" alt="TernakPro Logo"> <!-- Ganti dengan logo asli jika ada -->
             <!-- <span>TernakPro</span> -->
         </div>
         <ul class="nav-links">
@@ -23,10 +23,12 @@
             <li><a href="#penggunaan">Penggunaan</a></li>
             <li><a href="#testimoni">Testimoni</a></li>
             <li><a href="#faq">FAQ</a></li>
+            <li class="menu-auth"><a href="/login">Login</a></li>
+            <li class="menu-auth"><a href="/register">Register</a></li>
         </ul>
         <div class="nav-buttons">
-            <button class="btn btn-outline-login">Masuk</button>
-            <button class="btn btn-filled">Daftar</button>
+            <button class="btn btn-outline-login"><a href="/login">Masuk</a></button>
+            <button class="btn btn-filled"><a href="/register">Daftar</a></button>
         </div>
         <div class="hamburger">
             <span></span>

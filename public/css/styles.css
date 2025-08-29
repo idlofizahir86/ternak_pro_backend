@@ -140,6 +140,9 @@ a:hover {
     display: none;
     cursor: pointer;
 }
+.menu-auth {
+    display: none;
+}
 
 .hamburger span {
     display: block;
@@ -756,6 +759,9 @@ svg {
         display: none;
     }
     .hamburger {
+        display: block;
+    }
+    .menu-auth {
         display: block;
     }
     .navbar {
