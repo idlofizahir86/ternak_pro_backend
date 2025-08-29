@@ -1,0 +1,283 @@
+.testimonials {
+    display: flex;
+    position: absolute; /* Diubah dari fixed ke absolute untuk relatif terhadap .hero-testimoni */
+    justify-content: center;
+    gap: 5rem; /* Jarak antar kartu */
+    padding: 20px;
+    z-index: 4;
+    align-items: center;
+    bottom: -40%; /* Memposisikan ke tengah vertikal relatif terhadap .hero-testimoni */
+    left: 50%; /* Memposisikan ke tengah horizontal */
+    transform: translate(-50%, -50%); /* Menggeser kembali setengah lebar dan tinggi untuk centering sempurna */
+}
+
+.testimonial-card {
+    background-color: #fff;
+    border-radius: 15px; /* Diubah menjadi 15px untuk mendekati sudut melengkung pada gambar */
+    padding: 10px;
+    width: 300px; /* Diperluas menjadi 300px untuk mendekati lebar kartu pada gambar */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00aaff; /* Border biru tetap dipertahankan */
+    position: relative; /* Untuk memastikan elemen berada dalam konteks */
+    min-height: 400px; /* Tinggi minimum berdasarkan kartu dengan konten terpanjang */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; Memastikan konten terdistribusi dengan baik */
+    transition: transform 0.3s ease; /* Tambahkan transisi untuk efek halus */
+}
+
+.testimonial-card:nth-child(3) {
+    transform: scale(1.2); /* Kartu tengah (ke-3) paling besar */
+    z-index: 5; /* Paling depan */
+}
+
+.testimonial-card:nth-child(2),
+.testimonial-card:nth-child(4) {
+    transform: scale(1.1); /* Kartu 2 dan 4 sedikit lebih kecil */
+    z-index: 4; /* Di belakang kartu tengah */
+}
+
+.testimonial-card:nth-child(1),
+.testimonial-card:nth-child(5) {
+    transform: scale(1); /* Kartu 1 dan 5 lebih kecil lagi */
+    object-fit: contain;
+    z-index: 3; /* Paling belakang */
+}
+
+.profile-img {
+    width: 100%; /* Mengisi lebar kartu */
+    height: 100%; /* Menjaga rasio asli gambar */
+    border-radius: 20px; /* Diubah kembali menjadi persegi panjang dengan sudut melengkung 20px */
+    margin-bottom: 10px;
+    object-fit: cover; /* Menjaga rasio gambar tetap proporsional */
+    max-height: 150px; /* Membatasi tinggi maksimum gambar */
+}
+
+.rating {
+    color: #ffcc00; /* Warna bintang kuning */
+    font-size: 24px; /* Diperbesar sedikit untuk mendekati ukuran pada gambar */
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif; /* Menyesuaikan font agar lebih mirip */
+}
+
+h3 {
+    font-size: 20px; /* Diperbesar untuk mendekati ukuran pada gambar */
+    color: #333;
+    margin-bottom: 5px; /* Mengurangi jarak untuk kesesuaian */
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #00aaff; /* Warna biru sesuai gambar */
+    margin-bottom: 10px;
+    font-style: italic; /* Menambahkan gaya miring seperti pada gambar */
+}
+
+.review {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0; /* Menghapus margin default untuk kontrol lebih baik */
+    font-family: Arial, sans-serif; /* Menyesuaikan font */
+    flex-grow: 1; /* Membuat teks ulasan mengisi ruang yang tersedia */
+}
+
+/* Pastikan rasio tetap terjaga pada berbagai ukuran layar */
+@media (max-width: 768px) {
+    .testimonials {
+        display: none;
+    }
+}
+
+@media (min-width: 1501px) {
+    .testimonials {
+        gap: 5rem;
+        bottom: -45%; 
+    }
+    .testimonial-card {
+        width: 220px; /* Diperbesar dari 200px */
+        min-height: 308px; /* Diperbesar dari 280px dengan rasio yang sama */
+    }
+    
+    .profile-img {
+        height: 100px;
+    }
+    
+    .rating {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 15px;
+    }
+    
+    .review {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 1301px) and (max-width: 1500px) {
+    .testimonials {
+        gap: 3.5rem;
+        bottom: -50%; 
+    }
+
+    .testimonial-card {
+        width: 220px; /* Diperbesar dari 200px */
+        min-height: 308px; /* Diperbesar dari 280px dengan rasio yang sama */
+    }
+    
+    .profile-img {
+        height: 100px;
+    }
+    
+    .rating {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 15px;
+    }
+    
+    .review {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1300px) {
+    .testimonials {
+        gap: 2.3rem;
+        bottom: -50%; 
+    }
+    
+    .testimonial-card {
+        width: 220px; /* Diperbesar dari 200px */
+        min-height: 308px; /* Diperbesar dari 280px dengan rasio yang sama */
+    }
+    
+    .profile-img {
+        height: 100px;
+    }
+    
+    .rating {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 15px;
+    }
+    
+    .review {
+        font-size: 11px;
+    }
+}
+
+/* Media queries untuk responsivitas */
+@media (min-width: 993px) and (max-width: 1200px) {
+    .testimonials {
+        gap: 2.3rem;
+        bottom: -47%;
+    }
+    
+    .testimonial-card {
+        width: 200px;
+        min-height: 280px;
+    }
+    
+    .profile-img {
+        height: 100px;
+    }
+    
+    .rating {
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 15px;
+    }
+    
+    .review {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 992px ) {
+    .testimonials {
+        gap: 1.2rem;
+        bottom: -50%;
+    }
+    
+    .testimonial-card {
+        width: 170px;
+        min-height: 250px;
+        /* padding: 12px; */
+        left: -2%;
+    }
+    
+    .profile-img {
+        height: 90px;
+    }
+    
+    .testimonial-card:nth-child(3) {
+        transform: scale(1.15);
+    }
+    
+    .testimonial-card:nth-child(2),
+    .testimonial-card:nth-child(4) {
+        transform: scale(1.07);
+    }
+
+    .review {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 868px) {
+    
+    .testimonial-card {
+        max-width: 300px;
+        min-height: 250px;
+    }
+    
+    .hero-testimoni-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .testimonial-card {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .dev-story, .mockup-container-testimoni {
+        min-width: 100%;
+    }
+}
+
+/* Indikator responsivitas visual (opsional) */
+.size-indicator {
+    position: fixed;
+    top: 50px;
+    right: 50%;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 1000;
+}
+/* default tetap ada */
+.spacer {
+    display: block;
+}
+
+/* untuk layar ≤ 576px, sembunyikan br */
+@media (max-width: 576px) {
+    .spacer {
+        display: none;
+    }
+}
