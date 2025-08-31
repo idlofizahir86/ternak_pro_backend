@@ -13,7 +13,7 @@ use App\Http\Controllers\KonsultasiPakarController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AIChatController;
-
+use App\Http\Controllers\AIRecommendationController;
 
 Route::prefix('v1')->group(function() {
 
@@ -123,5 +123,11 @@ Route::prefix('v1')->group(function() {
         Route::post('/ai/conversations', [AIChatController::class, 'getConversations']);
         Route::get('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'getConversation']);
         Route::delete('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'deleteConversation']);
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // AI Recommendation routes
+        Route::post('/ai/rekomendasi-ternak', [AIRecommendationController::class, 'getRecommendation']);
+        Route::get('/ai/rekomendasi-ternak/health', [AIRecommendationController::class, 'healthCheck']);
     });
 });
