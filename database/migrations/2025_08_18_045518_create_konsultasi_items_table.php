@@ -22,8 +22,8 @@ return new class extends Migration
             $table->bigInteger('no_tlp');
             $table->string('spealis');
             $table->string('lokasi_praktik');
-            $table->date('pukul_mulai');
-            $table->date('pukul_akhir');
+            $table->time('pukul_mulai');
+            $table->time('pukul_akhir');
             $table->json('pendidikan');
             $table->string('pengalaman');
             $table->string('fokus_konsultasi');
