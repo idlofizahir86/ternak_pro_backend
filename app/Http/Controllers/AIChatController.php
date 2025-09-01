@@ -93,6 +93,11 @@ class AIChatController extends Controller
             // 3. Cek apakah Gemini meminta kita untuk memanggil fungsi (melakukan search)
             $functionCall = Arr::get($responseData, 'candidates.0.content.parts.0.functionCall');
 
+            // Inisialisasi $aiResponse di sini
+            $aiResponse = Arr::get($responseData, 'candidates.0.content.parts.0.text', 'Maaf, saya tidak bisa memberikan jawaban saat ini. Coba tanyakan hal lain.');
+            $firstCallTokenCount = Arr::get($responseData, 'usageMetadata.totalTokenCount', 0);
+            $totalTokenUsage = $firstCallTokenCount; // Mulai dengan token dari panggilan pertama
+
             if ($functionCall && $functionCall['name'] === 'search_web') {
                 // Gemini meminta kita untuk mencari sesuatu!
                 $searchQuery = $functionCall['args']['query'];
@@ -115,28 +120,34 @@ class AIChatController extends Controller
                 // 4. Kirim request kedua ke Gemini, kali ini dengan hasil pencarian
                 $response = Http::timeout(60)->post($this->apiUrl . '?key=' . $this->apiKey, [
                     'contents' => $geminiMessages,
-                    'tools' => $tools,
+                    'tools' => $tools, // Penting: Tetap sertakan tools pada panggilan kedua!
                 ]);
                 $responseData = $response->json();
+
+                // Perbarui $aiResponse dan $tokenUsage dari respons kedua
+                $aiResponse = Arr::get($responseData, 'candidates.0.content.parts.0.text', 'Maaf, saya tidak bisa memberikan jawaban saat ini. Coba tanyakan hal lain.');
+                
+                 // Tambahkan token dari panggilan kedua ke total
+                $secondCallTokenCount = Arr::get($responseData, 'usageMetadata.totalTokenCount', 0);
+                $totalTokenUsage += $secondCallTokenCount;
             }
 
-            // 5. Proses jawaban final dari Gemini
+            // 5. Proses jawaban final dari Gemini (sudah diperbarui jika ada functionCall)
             if ($response->successful()) {
-                $aiResponse = Arr::get($responseData, 'candidates.0.content.parts.0.text', 'Maaf, saya tidak bisa memberikan jawaban saat ini. Coba tanyakan hal lain.');
-                $tokenUsage = Arr::get($responseData, 'usageMetadata.totalTokenCount', 0);
-
+                // $aiResponse dan $tokenUsage sudah diatur dengan benar di atas
+                
                 // Save AI response
                 Message::create([
                     'conversation_id' => $conversation->id,
                     'role' => 'assistant',
                     'content' => $aiResponse,
-                    'token_usage' => $tokenUsage
+                    'token_usage' => $totalTokenUsage // Gunakan total token usage jika dihitung
                 ]);
 
                 return response()->json([
                     'conversation_id' => $conversation->id,
                     'response' => $aiResponse,
-                    'usage' => $responseData['usageMetadata'] ?? null
+                    'usage' => $totalTokenUsage // Ini mungkin hanya usage dari panggilan terakhir
                 ]);
 
             } else {
