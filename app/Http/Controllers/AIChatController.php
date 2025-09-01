@@ -105,17 +105,57 @@ class AIChatController extends Controller
                 
                 $searchResults = $this->performGoogleSearch($searchQuery);
 
-                // Tambahkan histori "permintaan" dari Gemini dan "jawaban" dari tool kita
-                $geminiMessages[] = ['role' => 'model', 'parts' => [['functionCall' => $functionCall]]];
-                $geminiMessages[] = [
-                    'role' => 'function',
-                    'parts' => [[
-                        'functionResponse' => [
-                            'name' => 'search_web',
-                            'response' => ['content' => $searchResults]
-                        ]
-                    ]]
-                ];
+                // --- Tambahkan logika pemeriksaan hasil pencarian di sini ---
+                $isSearchSuccessful = true;
+                if (
+                    str_contains($searchResults, "Pencarian tidak dapat dilakukan karena konfigurasi API tidak lengkap.") ||
+                    str_contains($searchResults, "Pencarian gagal dengan status:") ||
+                    str_contains($searchResults, "Gagal terhubung ke layanan pencarian.") ||
+                    str_contains($searchResults, "Tidak ditemukan hasil pencarian yang relevan untuk:") // Ini mungkin ingin Anda tangani sebagai "tidak ada hasil" bukan "gagal total"
+                ) {
+                    $isSearchSuccessful = false;
+                }
+                
+                if ($isSearchSuccessful) {
+                    // Hanya jika pencarian berhasil, kirim hasil ke Gemini untuk panggilan kedua
+                    $geminiMessages[] = ['role' => 'model', 'parts' => [['functionCall' => $functionCall]]];
+                    $geminiMessages[] = [
+                        'role' => 'function',
+                        'parts' => [[
+                            'functionResponse' => [
+                                'name' => 'search_web',
+                                'response' => ['content' => $searchResults]
+                            ]
+                        ]]
+                    ];
+
+                    // 4. Kirim request kedua ke Gemini, kali ini dengan hasil pencarian
+                    $response = Http::timeout(60)->post($this->apiUrl . '?key=' . $this->apiKey, [
+                        'contents' => $geminiMessages,
+                        'tools' => $tools, 
+                    ]);
+                    $responseData = $response->json();
+
+                    $aiResponse = Arr::get($responseData, 'candidates.0.content.parts.0.text', 'Maaf, saya tidak bisa memberikan jawaban saat ini. Coba tanyakan hal lain.');
+                    $secondCallTokenCount = Arr::get($responseData, 'usageMetadata.totalTokenCount', 0);
+                    $totalTokenUsage += $secondCallTokenCount; 
+
+                } else {
+                    // Jika pencarian GAGAL, kita tidak melakukan panggilan kedua ke Gemini dengan hasil tool.
+                    // Sebagai gantinya, kita bisa:
+                    // 1. Menginformasikan pengguna langsung dari backend.
+                    // 2. Atau, yang lebih baik, mengandalkan Gemini untuk memberikan jawaban tanpa pencarian.
+                    //    Untuk ini, kita perlu membuat panggilan kedua yang 'kosong' atau tanpa hasil tool.
+                    //    Namun, cara paling sederhana adalah membiarkan Gemini pada panggilan pertama saja
+                    //    dan mengubah $aiResponse secara manual jika pencarian gagal dan kita ingin mengoverride Gemini.
+
+                    // Pilihan: Override $aiResponse dengan pesan default yang lebih baik dari aplikasi Anda
+                    $aiResponse = "Mohon maaf, saya tidak dapat melakukan pencarian data terkini saat ini. Mungkin ada masalah dengan koneksi atau layanan pencarian. Bisakah saya bantu dengan informasi umum mengenai peternakan?";
+                    // Atau, Anda bisa mencoba memanggil Gemini lagi tanpa tool, tapi itu akan jadi 3 panggilan.
+                    // Untuk saat ini, mengandalkan prompt sistem yang diperbarui (Pendekatan 1) lebih elegan.
+                }
+
+                
 
                 // 4. Kirim request kedua ke Gemini, kali ini dengan hasil pencarian
                 $response = Http::timeout(60)->post($this->apiUrl . '?key=' . $this->apiKey, [
@@ -305,7 +345,8 @@ class AIChatController extends Controller
         3. Berikan jawaban praktis dan aplikatif
         4. Jika tidak tahu, jangan mengada-ada. Minta pengguna untuk bertanya dengan lebih spesifik.
         5. Jika Anda memerlukan data terkini atau fakta spesifik (seperti harga, regulasi, berita wabah), gunakan fungsi pencarian yang tersedia. Jangan berasumsi.
-        6. Jawaban harus ringkas dan jelas, maksimal 3-4 paragraf.
+        6. **Jika fungsi pencarian web tidak berhasil atau mengembalikan hasil yang tidak relevan/error, informasikan kepada pengguna bahwa Anda tidak dapat mengakses data terkini dan coba berikan informasi umum yang relevan dari pengetahuan Anda, atau sarankan cara lain bagi pengguna untuk menemukan informasi tersebut.**
+        7. Jawaban harus ringkas dan jelas, maksimal 3-4 paragraf.
         
         Topik yang dikuasai:
         - Ayam (petelur, pedaging, kampung)
