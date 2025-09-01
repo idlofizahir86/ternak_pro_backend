@@ -14,7 +14,7 @@ class AIChatController extends Controller
     private $apiKey;
     private $searchApiKey;
     private $searchCx;
-    private $apiUrl = 'https://generativelace.googleapis.com/v1beta/models/gemini-pro:generateContent';
+    private $apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
     public function __construct()
     {
