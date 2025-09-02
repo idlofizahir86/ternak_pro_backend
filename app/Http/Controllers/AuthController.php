@@ -261,4 +261,52 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function loginWeb(Request $request)
+    {
+        // Validasi data request
+        $validator = Validator::make($request->all(), [
+            'email_or_phone' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data yang dimasukkan tidak sesuai',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        // Cek apakah input email_or_phone berupa email atau nomor telepon
+        $user = null;
+        if (filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL)) {
+            $user = User::where('email', $request->email_or_phone)->first();
+        } else {
+            $user = User::where('no_telepon', $request->email_or_phone)->first();
+        }
+
+        // Jika user tidak ditemukan atau password tidak cocok
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email/No Handphone atau Password salah',
+            ], 401);
+        }
+
+        // Generate token dengan Sanctum
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Data untuk dikirim ke Flutter
+        $userData = [
+            'token' => $token,
+            'user_id' => $user->uid,
+            'email' => $user->email,
+            'name' => $user->name,
+            'role_id' => $user->role_id,
+        ];
+
+        // Mengarahkan pengguna ke aplikasi Flutter dengan data login
+        return redirect()->to('https://app.ternakpro.id?' . http_build_query($userData));
+    }
+
 }

@@ -18,17 +18,34 @@
                 <div class="form-container">
                     <h1>Masuk Akun Kamu</h1>
                     <p>Belum Punya Akun? <a href="/register">Daftar</a></p>
-                    <form action="{{ route('login') }}" method="POST">
+
+                    <!-- Display error messages from the backend -->
+                    @if (session('error'))
+                        <div class="error-message" style="color: red; margin-bottom: 15px;">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        <div class="error-message" style="color: red; margin-bottom: 15px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('login.web') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <i class="fas fa-envelope icon"></i>
-                            <input type="email" id="email" name="email" placeholder="Masukkan Email Aktif" required>
+                            <label for="email_or_phone">Email atau Nomor Telepon</label>
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" id="email_or_phone" name="email_or_phone" placeholder="Masukkan Email atau Nomor Telepon" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
                             <i class="fas fa-lock icon"></i>
-                            <input type="password" id="password" name="password" placeholder="Password Minimal 8 Angka" required>
+                            <input type="password" id="password" name="password" placeholder="Password Minimal 8 Karakter" required>
                         </div>
                         <div class="remember">
                             <input type="checkbox" id="remember" name="remember">
@@ -36,7 +53,8 @@
                         </div>
                         <button type="submit" class="login-btn">Masuk</button>
                         <p class="or">Atau</p>
-                        <button type="button" class="google-btn">
+                        <!-- Google login (optional, implement if supported) -->
+                        <button type="button" class="google-btn" disabled title="Fitur ini belum tersedia">
                             <img src="{{ asset('assets/google_icon.png') }}" alt="Google"> Masuk dengan Google
                         </button>
                     </form>

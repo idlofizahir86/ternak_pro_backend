@@ -20,6 +20,7 @@ Route::prefix('v1')->group(function() {
     // Endpoint Auth
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login-web', [AuthController::class, 'loginWeb'])->name('login.web');
 
     // Endpoint Tugas
     Route::get('/tugas', [TugasController::class, 'allTugas']);
