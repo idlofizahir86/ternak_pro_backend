@@ -24,7 +24,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f1f1f1;
+            background-color: linear-gradient(90deg, #298FBB 0%, #0EBCB1 100%);
         }
 
         /* Kontainer utama */
@@ -50,7 +50,7 @@
             top: 20px;
             left: 10px;
             border-radius: 12px;
-            border: 2.5px solid #298fbb;
+            border: 2.5px solid #7ed8ff;
             animation: pathAnimation 2s infinite linear;
         }
 
@@ -98,33 +98,5 @@
         </div>
     </div>
 
-    <script>
-        window.onload = function() {
-            // Mengambil data dari query string di URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('flutter.token');
-            const userId = urlParams.get('flutter.user_id');
-            const name = urlParams.get('flutter.name');
-            const email = urlParams.get('flutter.email');
-
-            // Jika data valid, simpan ke localStorage
-            if (token && userId && name && email) {
-                localStorage.setItem('flutter.token', token);
-                localStorage.setItem('flutter.user_id', userId);
-                localStorage.setItem('flutter.name', name);
-                localStorage.setItem('flutter.email', email);
-                console.log('User data saved to localStorage');
-
-                // Menghapus query string dari URL tanpa reload
-                window.history.replaceState(null, document.title, window.location.pathname);
-                
-                // Redirect ke aplikasi Flutter Web
-                window.location.href = 'https://app.ternakpro.id';
-            } else {
-                // Jika data tidak valid, redirect ke login
-                window.location.href = 'https://ternakpro.id/login';
-            }
-        }
-    </script>
 </body>
 </html>
