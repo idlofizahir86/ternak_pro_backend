@@ -25,6 +25,7 @@
             height: 100vh;
             margin: 0;
             background-color: linear-gradient(90deg, #298FBB 0%, #0EBCB1 100%);
+            background: linear-gradient(90deg, #298FBB 0%, #0EBCB1 100%);
         }
 
         /* Kontainer utama */
@@ -63,7 +64,7 @@
             font-size: 20px;
             font-weight: bold;
             color: white;
-            background: linear-gradient(90deg, #298fbb, #0ebcb1);
+            background-color: linear-gradient(90deg, #298FBB 0%, #0EBCB1 100%);
             -webkit-background-clip: text;
             background-clip: text;
             animation: gradientAnimation 2s infinite linear;
