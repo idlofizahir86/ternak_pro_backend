@@ -9,15 +9,11 @@
             // Ambil data login yang disimpan dalam session
             const userData = @json($userData);
 
-            // Simpan data di localStorage
-            localStorage.setItem('flutter.token', userData.token);
-            localStorage.setItem('flutter.user_id', userData.user_id);
-            localStorage.setItem('flutter.email', userData.email);
-            localStorage.setItem('flutter.name', userData.name);
-            localStorage.setItem('flutter.role_id', userData.role_id);
+            // Membuat URL dengan data login sebagai query parameters
+            const queryParams = new URLSearchParams(userData).toString();
 
-            // Redirect ke aplikasi Flutter Web
-            window.location.href = 'https://app.ternakpro.id';
+            // Redirect ke aplikasi Flutter Web dengan query params
+            window.location.href = 'https://app.ternakpro.id?' + queryParams;
         }
     </script>
 </head>
