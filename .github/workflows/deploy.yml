@@ -1,54 +1,48 @@
-name: Deploy TernakPro_Backend to Server
+name: Deploy Laravel to StackCP
 
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest  # Menjalankan workflow di mesin Ubuntu
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
     steps:
-    # Langkah 1: Checkout repository
-    - name: Checkout code
-      uses: actions/checkout@v2  # Mengambil kode dari repositori
+      # Checkout kode dari repositori
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    # Langkah 2: Set up PHP untuk Laravel
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'  # Sesuaikan dengan versi PHP yang digunakan di server Anda
-        extensions: mbstring, bcmath, pdo, pdo_mysql  # Tambahkan ekstensi yang diperlukan oleh Laravel
+      # Setup PHP untuk Laravel
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0' # Sesuaikan dengan versi PHP di StackCP
+          extensions: mbstring, bcmath, zip, pdo, mysql
 
-    # Langkah 3: Install Composer dependencies
-    - name: Install Composer dependencies
-      run: |
-        curl -sS https://getcomposer.org/installer | php
-        php composer.phar install --no-interaction --prefer-dist
+      # Install dependensi Composer
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader
 
-    # Langkah 4: Setup SSH key untuk akses ke server
-    - name: Set up SSH key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Menggunakan SSH private key dari GitHub Secrets
+      # Buat file .env dari GitHub Secrets
+      - name: Create .env File
+        run: |
+          echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
 
-    # Langkah 5: Sync file Laravel dengan server menggunakan rsync
-    - name: Sync files with server
-      run: |
-        rsync -avz --delete ./ user@185.151.30.154:/home/sites/2b/5/535431543a/public_html/ternakpro_backend  # Sesuaikan path di server Anda
-
-    # Langkah 6: Set permissions di server untuk folder Laravel
-    - name: Set permissions
-      run: |
-        ssh user@185.151.30.154 "cd /home/sites/2b/5/535431543a/public_html/ternakpro_backend && sudo chmod -R 775 storage bootstrap/cache"
-
-    # Langkah 7: Menjalankan migrasi Laravel
-    - name: Run Laravel migrations
-      run: |
-        ssh user@185.151.30.154 "cd /home/sites/2b/5/535431543a/public_html/ternakpro_backend && php artisan migrate --force"
-
-    # Langkah 8: Clear cache untuk aplikasi Laravel
-    - name: Clear Laravel cache
-      run: |
-        ssh user@185.151.30.154 "cd /home/sites/2b/5/535431543a/public_html/ternakpro_backend && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+      # Deploy ke StackCP menggunakan SSH
+      - name: Deploy to StackCP
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ssh.gb.stackcp.com
+          username: ternakpro.id
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/sites/2b/5/535431543a/public_html/ternakpro_backend
+            git pull origin main
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan optimize
