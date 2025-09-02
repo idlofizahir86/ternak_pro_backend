@@ -296,7 +296,7 @@ class AuthController extends Controller
         // Generate token dengan Sanctum
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Data untuk dikirim ke Flutter
+        // Data untuk dikirim ke frontend
         $userData = [
             'token' => $token,
             'user_id' => $user->uid,
@@ -305,8 +305,12 @@ class AuthController extends Controller
             'role_id' => $user->role_id,
         ];
 
-        // Mengarahkan pengguna ke aplikasi Flutter dengan data login
-        return redirect()->to('https://app.ternakpro.id?' . http_build_query($userData));
+        // Menyimpan data login ke dalam session dan mengirimkan data untuk diproses di frontend
+        session(['user_data' => $userData]);
+
+        // Redirect ke halaman Flutter Web dan menggunakan JavaScript untuk menyimpan data ke localStorage
+        return view('login_redirect', ['userData' => $userData]);
     }
+
 
 }
