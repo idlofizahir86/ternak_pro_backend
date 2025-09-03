@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\TblTernak;
 use App\Models\MTujuanTernak;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 
 class TernakController extends Controller
@@ -169,24 +171,119 @@ class TernakController extends Controller
      */
     public function storeTernak(Request $request)
     {
+        // Validasi dasar + cabang
         $request->validate([
-            'user_id' => 'required|exists:users,uid',
-            'nama_ternak' => 'required|string',
-            'tgl_mulai' => 'required|date',
-            'hewan_id' => ' required|exists:m_hewans,id',
-            'ras_id' => 'required|exists:m_ras,id',
+            'user_id'          => 'required|exists:users,uid',
+            'nama_ternak'      => 'required|string',
+            'tgl_mulai'        => 'required|date',
+            'hewan_id'         => 'required|exists:m_hewans,id',
+            'ras_id'           => 'required|exists:m_ras,id',
             'tujuan_ternak_id' => 'required|exists:m_tujuan_ternaks,id',
-            'usia' => 'required|integer',
-            'kondisi_ternak' => 'required|string',
-            'jenis_kelamin' => 'required|string',
-            'berat' => 'required|numeric',
-            'catatan' => 'nullable|string',
+            'is_individual'    => 'required|boolean',
+            'catatan'          => 'nullable|string',
+
+            // jika individual = true, field-field ini wajib
+            'tag_id'           => [
+                                    Rule::requiredIf(fn () => filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+                                    'string',
+                                    'max:50', // contoh tambahan
+                                ],
+            'kondisi_ternak'   => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+            'jenis_kelamin'    => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+            'berat'            => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true)
+                                .'|numeric',
+
+            // jika individual = false, wajib jumlah_hewan
+            'jumlah_hewan'     => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === false)
+                                .'|integer|min:1',
         ]);
 
-        $ternak = TblTernak::create($request->all());
+        $isIndividual = filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN);
 
-        return response()->json($ternak, 201);
+        return DB::transaction(function () use ($request, $isIndividual) {
+
+            // helper untuk generate tag pendek & berurutan
+            $nextTag = function (int $seq) {
+                return sprintf('TNK-%06d', $seq); // contoh: TNK-000006 (ringkas & rapi)
+            };
+
+            // Ambil urutan terakhir milik user ini dengan lock,
+            // hitung dari angka di suffix tag_id (ambil semua lalu parse di PHP → aman untuk MySQL/MariaDB apapun).
+            $getLastSeqForUser = function ($userId) {
+                $tags = TblTernak::where('user_id', $userId)
+                    ->lockForUpdate()
+                    ->pluck('tag_id');
+
+                $max = 0;
+                foreach ($tags as $tag) {
+                    // ambil semua digit dan cast ke int
+                    $num = (int) preg_replace('/\D+/', '', (string) $tag);
+                    if ($num > $max) $max = $num;
+                }
+                return $max; // 0 jika belum ada
+            };
+
+            if ($isIndividual) {
+                // Insert 1 data (tag_id dari request)
+                // Set default jika user tidak kirim (sesuai permintaanmu: usia/berat/jenis_kelamin boleh override)
+                $data = [
+                    'tag_id'           => $request->tag_id,                 // dari user
+                    'user_id'          => $request->user_id,
+                    'nama_ternak'      => $request->nama_ternak,
+                    'tgl_mulai'        => $request->tgl_mulai,
+                    'hewan_id'         => $request->hewan_id,
+                    'ras_id'           => $request->ras_id,
+                    'tujuan_ternak_id' => $request->tujuan_ternak_id,
+                    'usia'             => $request->input('usia', 0),
+                    'kondisi_ternak'   => $request->kondisi_ternak,
+                    'jenis_kelamin'    => $request->jenis_kelamin,
+                    'berat'            => (float) $request->berat,
+                    'catatan'          => $request->catatan,
+                ];
+
+                $row = TblTernak::create($data);
+                return response()->json($row, 201);
+            }
+
+            // Batch mode (kelompok): generate otomatis
+            $jumlah = (int) $request->jumlah_hewan;
+
+            // Hitung sequence terakhir → lanjutkan
+            $lastSeq = $getLastSeqForUser($request->user_id);
+
+            $rows = [];
+            for ($i = 1; $i <= $jumlah; $i++) {
+                $seq = $lastSeq + $i;
+
+                $rows[] = [
+                    'tag_id'           => $nextTag($seq),
+                    'user_id'          => $request->user_id,
+                    'nama_ternak'      => $request->nama_ternak,
+                    'tgl_mulai'        => $request->tgl_mulai,
+                    'hewan_id'         => $request->hewan_id,
+                    'ras_id'           => $request->ras_id,
+                    'tujuan_ternak_id' => $request->tujuan_ternak_id,
+                    'usia'             => 0,        // default batch
+                    'kondisi_ternak'   => $request->input('kondisi_ternak'), // boleh null atau isi default
+                    'jenis_kelamin'    => '-',      // default batch
+                    'berat'            => 0,        // default batch
+                    'catatan'          => $request->catatan,
+                    'created_at'       => now(),
+                    'updated_at'       => now(),
+                ];
+            }
+
+            TblTernak::insert($rows);
+
+            return response()->json([
+                'status'   => 'ok',
+                'inserted' => $jumlah,
+                'from_tag' => $rows[0]['tag_id'],
+                'to_tag'   => $rows[$jumlah-1]['tag_id'],
+            ], 201);
+        });
     }
+
 
     /**
      * @OA\Put(
