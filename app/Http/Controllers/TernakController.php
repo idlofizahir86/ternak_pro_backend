@@ -9,6 +9,7 @@ use App\Models\MTujuanTernak;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 
 class TernakController extends Controller
@@ -171,7 +172,7 @@ class TernakController extends Controller
      */
     public function storeTernak(Request $request)
     {
-        // Validasi dasar + cabang
+        // Validasi (unik tag_id hanya per user_id)
         $request->validate([
             'user_id'          => 'required|exists:users,uid',
             'nama_ternak'      => 'required|string',
@@ -182,52 +183,68 @@ class TernakController extends Controller
             'is_individual'    => 'required|boolean',
             'catatan'          => 'nullable|string',
 
-            // jika individual = true, field-field ini wajib
-            'tag_id'           => [
-                                    Rule::requiredIf(fn () => filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
-                                    'string',
-                                    'max:50', // contoh tambahan
-                                ],
-            'kondisi_ternak'   => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
-            'jenis_kelamin'    => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
-            'berat'            => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true)
-                                .'|numeric',
+            // jika individual = true, field wajib
+            'tag_id'         => [
+                Rule::requiredIf(fn () => filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+                'string',
+                'max:50',
+                // unik per user_id (bukan global)
+                Rule::unique((new TblTernak)->getTable(), 'tag_id')
+                    ->where(fn ($q) => $q->where('user_id', $request->user_id)),
+            ],
+            'kondisi_ternak' => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+            'jenis_kelamin'  => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true),
+            'berat'          => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === true) . '|numeric',
 
-            // jika individual = false, wajib jumlah_hewan
-            'jumlah_hewan'     => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === false)
-                                .'|integer|min:1',
+            // jika kelompok
+            'jumlah_hewan'   => Rule::requiredIf(fn()=> filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN) === false) . '|integer|min:1',
         ]);
 
         $isIndividual = filter_var($request->is_individual, FILTER_VALIDATE_BOOLEAN);
 
         return DB::transaction(function () use ($request, $isIndividual) {
 
-            // helper untuk generate tag pendek & berurutan
-            $nextTag = function (int $seq) {
-                return sprintf('TNK-%06d', $seq); // contoh: TNK-000006 (ringkas & rapi)
+            // 1) PREFIX dari nama_ternak: huruf awal tiap kata, max 4, uppercase, fallback TNK
+            $makePrefix = function (string $name): string {
+                // ubah aksara non-latin → ascii (butuh Illuminate\Support\Str)
+                $ascii = Str::ascii($name);
+                $words = preg_split('/\s+/', trim($ascii)) ?: [];
+                $letters = [];
+                foreach ($words as $w) {
+                    $w = preg_replace('/[^A-Za-z0-9]/', '', $w ?? '');
+                    if ($w !== '') {
+                        $letters[] = substr($w, 0, 1);
+                    }
+                }
+                $abbr = strtoupper(substr(implode('', $letters), 0, 4));
+                return $abbr !== '' ? $abbr : 'TNK';
             };
 
-            // Ambil urutan terakhir milik user ini dengan lock,
-            // hitung dari angka di suffix tag_id (ambil semua lalu parse di PHP → aman untuk MySQL/MariaDB apapun).
-            $getLastSeqForUser = function ($userId) {
+            // 2) Ambil nomor urut terakhir untuk user ini dari suffix numerik di tag_id
+            $getLastSeqForUser = function (string $userId): int {
+                // lock supaya aman dari race condition
                 $tags = TblTernak::where('user_id', $userId)
                     ->lockForUpdate()
                     ->pluck('tag_id');
 
                 $max = 0;
                 foreach ($tags as $tag) {
-                    // ambil semua digit dan cast ke int
+                    // ekstrak semua digit → int
                     $num = (int) preg_replace('/\D+/', '', (string) $tag);
                     if ($num > $max) $max = $num;
                 }
                 return $max; // 0 jika belum ada
             };
 
+            // 3) Format tag dengan PREFIX-000006
+            $formatTag = function (string $prefix, int $seq): string {
+                return sprintf('%s-%06d', $prefix, $seq);
+            };
+
             if ($isIndividual) {
-                // Insert 1 data (tag_id dari request)
-                // Set default jika user tidak kirim (sesuai permintaanmu: usia/berat/jenis_kelamin boleh override)
-                $data = [
-                    'tag_id'           => $request->tag_id,                 // dari user
+                // Individual: gunakan tag_id dari request (sudah divalidasi unik per user)
+                $row = TblTernak::create([
+                    'tag_id'           => $request->tag_id,
                     'user_id'          => $request->user_id,
                     'nama_ternak'      => $request->nama_ternak,
                     'tgl_mulai'        => $request->tgl_mulai,
@@ -239,34 +256,34 @@ class TernakController extends Controller
                     'jenis_kelamin'    => $request->jenis_kelamin,
                     'berat'            => (float) $request->berat,
                     'catatan'          => $request->catatan,
-                ];
+                ]);
 
-                $row = TblTernak::create($data);
                 return response()->json($row, 201);
             }
 
-            // Batch mode (kelompok): generate otomatis
+            // Kelompok: auto-generate tag_id dengan prefix inisial nama_ternak + seq per user
             $jumlah = (int) $request->jumlah_hewan;
+            $prefix = $makePrefix($request->nama_ternak);
 
-            // Hitung sequence terakhir → lanjutkan
             $lastSeq = $getLastSeqForUser($request->user_id);
-
             $rows = [];
+
             for ($i = 1; $i <= $jumlah; $i++) {
-                $seq = $lastSeq + $i;
+                $seq   = $lastSeq + $i;
+                $tagId = $formatTag($prefix, $seq);
 
                 $rows[] = [
-                    'tag_id'           => $nextTag($seq),
+                    'tag_id'           => $tagId,
                     'user_id'          => $request->user_id,
                     'nama_ternak'      => $request->nama_ternak,
                     'tgl_mulai'        => $request->tgl_mulai,
                     'hewan_id'         => $request->hewan_id,
                     'ras_id'           => $request->ras_id,
                     'tujuan_ternak_id' => $request->tujuan_ternak_id,
-                    'usia'             => 0,        // default batch
-                    'kondisi_ternak'   => $request->input('kondisi_ternak'), // boleh null atau isi default
-                    'jenis_kelamin'    => '-',      // default batch
-                    'berat'            => 0,        // default batch
+                    'usia'             => 0,          // default batch
+                    'kondisi_ternak'   => $request->input('kondisi_ternak'),
+                    'jenis_kelamin'    => '-',        // default batch
+                    'berat'            => 0,          // default batch
                     'catatan'          => $request->catatan,
                     'created_at'       => now(),
                     'updated_at'       => now(),
@@ -276,10 +293,11 @@ class TernakController extends Controller
             TblTernak::insert($rows);
 
             return response()->json([
-                'status'   => 'ok',
-                'inserted' => $jumlah,
-                'from_tag' => $rows[0]['tag_id'],
-                'to_tag'   => $rows[$jumlah-1]['tag_id'],
+                'status'     => 'ok',
+                'inserted'   => $jumlah,
+                'prefix'     => $prefix,
+                'from_tag'   => $rows[0]['tag_id'],
+                'to_tag'     => $rows[$jumlah-1]['tag_id'],
             ], 201);
         });
     }
