@@ -123,9 +123,25 @@ class TernakController extends Controller
     public function ternakUser($user_id, $id)
     {
         $ternak = TblTernak::where('user_id', $user_id)->where('id', $id)->first();
+        $hewan = MHewan::where('id', $ternak->hewan_id)->first();
+            $nama_hewan = $hewan->nama;
+            $icon_path = $hewan->icon_path;
+            $ternakData = [
+                    'id_ternak' => $ternak->id,
+                    'tag_id' => $ternak->tag_id,
+                    'nama_ternak' => $ternak->nama_ternak,
+                    'jenis_hewan' => $nama_hewan,
+                    'icon_path' => $icon_path,
+                    'berat' => $ternak->berat,
+                    'usia' => $ternak->usia,
+                    'kondisi_ternak' => $ternak->kondisi_ternak,
+                    'jenis_kelamin' => $ternak->jenis_kelamin,
+                    'tgl_mulai' => Carbon::parse($ternak->tgl_mulai)->format('Y-m-d'),
+                    'catatan' => $ternak->catatan
+                ];
 
-        if ($ternak) {
-            return response()->json($ternak);
+        if ($ternakData) {
+            return response()->json($ternakData);
         } else {
             return response()->json(['message' => 'Ternak tidak ditemukan'], 404);
         }
