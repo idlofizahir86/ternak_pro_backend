@@ -297,9 +297,9 @@ class TernakController extends Controller
                     'ras_id'           => $request->ras_id,
                     'tujuan_ternak_id' => $request->tujuan_ternak_id,
                     'usia'             => 0,          // default batch
-                    'kondisi_ternak'   => $request->input('kondisi_ternak'. 'Sehat'),
+                    'kondisi_ternak'   => "Sehat",
                     'jenis_kelamin'    => '-',        // default batch
-                    'berat'            => 0,          // default batch
+                    'berat'            => 0.0,          // default batch
                     'catatan'          => $request->catatan,
                     'created_at'       => now(),
                     'updated_at'       => now(),
