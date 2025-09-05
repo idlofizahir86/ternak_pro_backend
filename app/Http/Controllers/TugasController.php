@@ -388,7 +388,6 @@ class TugasController extends Controller
         }
 
         $request->validate([
-            'jenis_tugas_id' => 'required|exists:m_jenis_tugas,id',
             'tgl_tugas' => 'required|date',
             'waktu_tugas' => 'required|date_format:H:i:s',
             'status_tugas_id' => 'required|exists:m_status_tugas,id',
