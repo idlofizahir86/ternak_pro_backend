@@ -161,6 +161,7 @@ class TugasController extends Controller
                     'id_tugas' => $value->id,
                     'nama_tugas' => $nama_tugas,
                     'icon_path' => $icon_path,
+                    'status_tugas_id' => $value->status_tugas_id,
                     'status_tugas' => $status_tugas,
                     'tgl_tugas' => Carbon::parse($value->tgl_tugas)->format('Y-m-d'),
                     'waktu_tugas' => Carbon::parse($value->waktu_tugas)->format('H:i'), // Mengubah format waktu
