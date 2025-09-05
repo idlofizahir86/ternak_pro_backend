@@ -7,6 +7,7 @@ use App\Models\TblTugas;
 use App\Models\MJenisTugas;
 use App\Models\MPengulanganTugas;
 use App\Models\MStatusTugas;
+use App\Models\TblPengulanganTugas;
 use Carbon\Carbon;
 
 
@@ -256,21 +257,71 @@ class TugasController extends Controller
      */
     public function storeTugas(Request $request)
     {
+        // Validasi input yang diperlukan
         $request->validate([
             'user_id' => 'required|exists:users,uid',
             'jenis_tugas_id' => 'required|exists:m_jenis_tugas,id',
             'tgl_tugas' => 'required|date',
-            'pengulangan_id' => 'required|exists:m_pengulangan_tugas,id',
             'waktu_tugas' => 'required|date_format:H:i:s',
             'status_tugas_id' => 'required|exists:m_status_tugas,id',
             'catatan' => 'nullable|string',
+            'pengulangan_id' => 'required|exists:m_pengulangan_tugas,id',
             'is_pengingat' => 'nullable|boolean',
         ]);
 
-        $tugas = TblTugas::create($request->all());
+        // Jika pengulangan_id adalah 6, proses data pengulangan
+        if ($request->pengulangan_id == 6) {
+            // Validasi dan ambil data pengulangan yang diperlukan
+            $request->validate([
+                'n_pengulangan' => 'required|integer',
+                'satuan_pengulangan' => 'required|string',
+                'hari_pengulangan' => 'required|string',
+                'n_kerekapan' => 'required|integer',
+                'total_kerekapan' => 'required|integer',
+                'tgl_akhir' => 'nullable|string',  // Jika kosong, tgl_akhir bisa "-"
+            ]);
+
+            // Cek apakah tgl_akhir adalah "-" atau null
+            $tgl_akhir = $request->tgl_akhir;
+            if ($tgl_akhir === '-') {
+                $tgl_akhir = null;  // Ubah jadi null jika "-"
+            } elseif ($tgl_akhir !== null) {
+                // Jika tgl_akhir bukan null atau "-", ubah ke format Date
+                try {
+                    $tgl_akhir = Carbon::createFromFormat('Y-m-d', $tgl_akhir)->format('Y-m-d');  // Format Date
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Invalid date format for tgl_akhir'], 400);
+                }
+            }
+
+            // Simpan data ke TblPengulanganTugas
+            TblPengulanganTugas::create([
+                'user_id' => $request->user_id,
+                'pengulangan_tugas_id' => $request->pengulangan_id,
+                'n_pengulangan' => $request->n_pengulangan,
+                'satuan_pengulangan' => $request->satuan_pengulangan,
+                'hari_pengulangan' => $request->hari_pengulangan,
+                'n_kerekapan' => $request->n_kerekapan,
+                'total_kerekapan' => $request->total_kerekapan,
+                'tgl_akhir' => $tgl_akhir,
+            ]);
+        }
+
+        // Membuat data TblTugas hanya dengan kolom yang dibutuhkan
+        $tugas = TblTugas::create([
+            'user_id' => $request->user_id,
+            'jenis_tugas_id' => $request->jenis_tugas_id,
+            'tgl_tugas' => $request->tgl_tugas,
+            'waktu_tugas' => $request->waktu_tugas,
+            'status_tugas_id' => $request->status_tugas_id,
+            'pengulangan_id' => $request->pengulangan_id,
+            'is_pengingat' => $request->is_pengingat,
+            'catatan' => $request->catatan,
+        ]);
 
         return response()->json($tugas, 201);
     }
+
 
     /**
      * @OA\Put(

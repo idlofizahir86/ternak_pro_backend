@@ -22,7 +22,7 @@ return new class extends Migration
             $table->json('hari_pengulangan');
             $table->integer('n_kerekapan');
             $table->integer('total_kerekapan');
-            $table->date('tgl_akhir');
+            $table->date('tgl_akhir')->nullable();
             $table->timestamps();
         });
     }
