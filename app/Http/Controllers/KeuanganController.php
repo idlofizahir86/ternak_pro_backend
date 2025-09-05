@@ -46,6 +46,23 @@ class KeuanganController extends Controller
         return response()->json(['total_keuangan' => $keuangan]);
     }
 
+    public function totalKeuanganPerBulan($tipe, $bulan, $tahun, $user_id)
+    {
+        // Validasi bulan dan tahun
+        if ($bulan < 1 || $bulan > 12) {
+            return response()->json(['error' => 'Bulan tidak valid'], 400);
+        }
+
+        // Query untuk mendapatkan total keuangan berdasarkan bulan dan tahun
+        $keuangan = TblKeuangan::where('user_id', $user_id)
+                                ->where('is_pengeluaran', $tipe === 'pengeluaran' ? true : false)
+                                ->whereMonth('tgl_keuangan', $bulan)  // Memfilter berdasarkan bulan
+                                ->whereYear('tgl_keuangan', $tahun)  // Memfilter berdasarkan tahun
+                                ->sum('nominal_total');  // Menjumlahkan nominal_total
+
+        return response()->json(['total_keuangan' => $keuangan]);
+    }
+
     /**
      * @OA\Get(
      *     path="/api/v1/keuangan/{tipe}/{user_id}",
