@@ -184,7 +184,7 @@ class AIChatControllerDeepseek extends Controller
      */
     private function getSystemPrompt()
     {
-        return "Anda adalah asisten virtual ahli peternakan untuk aplikasi TernakPro. 
+        return "Anda adalah asisten virtual ahli peternakan untuk aplikasi TernakPro bernama SITERNAK. 
         Berikan jawaban yang akurat, informatif, dan mudah dipahami tentang peternakan.
         
         Aturan:

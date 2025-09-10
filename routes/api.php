@@ -13,6 +13,7 @@ use App\Http\Controllers\KonsultasiPakarController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AIChatController;
+use App\Http\Controllers\AIChatControllerDeepseek;
 use App\Http\Controllers\AIRecommendationController;
 
 Route::prefix('v1')->group(function() {
@@ -125,6 +126,17 @@ Route::prefix('v1')->group(function() {
         Route::post('/ai/conversations', [AIChatController::class, 'getConversations']);
         Route::get('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'getConversation']);
         Route::delete('/ai/conversation/{userId}/{conversationId}', [AIChatController::class, 'deleteConversation']);
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        // Chat routes
+        Route::post('/ai/chat/deepseek', [AIChatControllerDeepseek::class, 'sendMessage']);
+        Route::post('/ai/chat/deepseek/new', [AIChatControllerDeepseek::class, 'startNewConversation']);
+        
+        // Conversation history
+        Route::post('/ai/conversations/deepseek', [AIChatControllerDeepseek::class, 'getConversations']);
+        Route::get('/ai/conversation/deepseek/{userId}/{conversationId}', [AIChatControllerDeepseek::class, 'getConversation']);
+        Route::delete('/ai/conversation/deepseek/{userId}/{conversationId}', [AIChatControllerDeepseek::class, 'deleteConversation']);
     });
 
     Route::middleware('auth:sanctum')->group(function () {
