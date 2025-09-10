@@ -15,8 +15,14 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AIChatController;
 use App\Http\Controllers\AIChatControllerDeepseek;
 use App\Http\Controllers\AIRecommendationController;
+use App\Http\Controllers\BannerController;
 
 Route::prefix('v1')->group(function() {
+
+    Route::get('/test-env', function () {
+        // Menampilkan semua variabel dari .env
+        dd(env('DEEPSEEK_API_KEY'));
+    });
 
     // Endpoint Auth
     Route::post('/register', [AuthController::class, 'register']);
@@ -74,6 +80,9 @@ Route::prefix('v1')->group(function() {
 
     // Endpoint Hewan
     Route::get('/ras', [HewanController::class, 'allRas']);
+
+    // Endpoint Banner
+    Route::get('active-banners', [BannerController::class, 'getActiveBanners']);
 
     // Endpoint Suplier Pakan
     Route::get('/suplier-pakan/kategoris', [SuplierPakanController::class, 'allKategoriSuplierPakan']);
