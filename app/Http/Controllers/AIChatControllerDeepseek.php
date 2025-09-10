@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
@@ -67,17 +65,26 @@ class AIChatControllerDeepseek extends Controller
                 ];
             }
             
-            // Call DeepSeek API
+            // Log the request payload for debugging
+            Log::info('Sending to DeepSeek API: ', $messages);
+
+            // Call DeepSeek API with retry mechanism and extended timeout
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout(30)->post($this->apiUrl, [
+            ])
+            ->timeout(60) // Increase timeout to avoid timeouts
+            ->retry(3, 1000) // Retry up to 3 times with 1-second delay
+            ->post($this->apiUrl, [
                 'model' => 'deepseek-chat',
                 'messages' => $messages,
                 'temperature' => 0.7,
                 'max_tokens' => 1000,
                 'stream' => false
             ]);
+
+            // Log the response body for debugging
+            Log::info('DeepSeek API Response: ' . $response->body());
             
             if ($response->successful()) {
                 $responseData = $response->json();
@@ -156,7 +163,6 @@ class AIChatControllerDeepseek extends Controller
      */
     public function getConversation($userId, $conversationId)
     {
-        
         $conversation = Conversation::where('user_id', $userId)
             ->with(['messages' => function($query) {
                 $query->orderBy('created_at', 'asc');
