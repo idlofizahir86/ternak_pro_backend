@@ -1,12 +1,10 @@
-<?php
-
 namespace App\Http\Controllers;
+
 use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
 
 class AIChatControllerDeepseek extends Controller
 {
