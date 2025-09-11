@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('lokasi_praktik');
             $table->time('pukul_mulai');
             $table->time('pukul_akhir');
-            $table->json('pendidikan');
+            $table->json('pendidikan')->nullable();
             $table->string('pengalaman');
             $table->string('fokus_konsultasi');
             $table->timestamps();

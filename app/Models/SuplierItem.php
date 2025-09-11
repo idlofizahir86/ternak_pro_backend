@@ -43,7 +43,6 @@ class SuplierItem extends Model
     ];
 
     protected $casts = [
-        'image_url' => 'array',
         'is_stok' => 'boolean',
     ];
 

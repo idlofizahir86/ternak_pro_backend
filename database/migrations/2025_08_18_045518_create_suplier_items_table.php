@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('suplier_items', function (Blueprint $table) {
             $table->id();
-            $table->json('image_url');
+            $table->json('image_url')->nullable();
             $table->string('judul');
             $table->mediumText('detail');
             $table->mediumText('khasiat');
             $table->unsignedBigInteger('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('suplier_kategoris')->onDelete('cascade');
             $table->boolean('is_stok')->default(true);
+            $table->boolean('is_nego')->default(false);
             $table->integer('harga');
             $table->bigInteger('no_tlp');
             $table->string('alamat_overview');
