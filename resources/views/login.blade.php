@@ -4,7 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ternak Pro | Login</title>
-        <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/icon_ternakpro.png') }}">
+        
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="{{ asset('css/login.css') }}?v={{ time() }}">
@@ -12,7 +13,7 @@
     <body>
         <div class="container">
             <div class="left-panel">
-                <img src="{{ asset('assets/footer-logo.png') }}" href="/" alt="Ternak Pro Logo" class="logo">
+                <a href="{{ route('home') }}"> <img src="{{ asset('assets/footer-logo.png') }}" alt="Ternak Pro Logo" class="logo"></a>
             </div>
             <div class="right-panel">
                 <div class="form-container">

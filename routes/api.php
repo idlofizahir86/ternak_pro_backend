@@ -16,6 +16,7 @@ use App\Http\Controllers\AIChatController;
 use App\Http\Controllers\AIChatControllerDeepseek;
 use App\Http\Controllers\AIRecommendationController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\TNotificationController;
 
 Route::prefix('v1')->group(function() {
 
@@ -26,6 +27,7 @@ Route::prefix('v1')->group(function() {
 
     // Endpoint Auth
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register-web', [AuthController::class, 'registerWeb'])->name('register.web');
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/login-web', [AuthController::class, 'loginWeb'])->name('login.web');
 
@@ -83,6 +85,9 @@ Route::prefix('v1')->group(function() {
 
     // Endpoint Banner
     Route::get('active-banners', [BannerController::class, 'getActiveBanners']);
+
+    // Endpoint Notification
+    Route::apiResource('notifications', TNotificationController::class);
 
     // Endpoint Suplier Pakan
     Route::get('/suplier-pakan/kategoris', [SuplierPakanController::class, 'allKategoriSuplierPakan']);

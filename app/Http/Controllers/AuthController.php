@@ -154,6 +154,64 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function registerWeb(Request $request)
+    {
+        // Validate request data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'no_telepon' => 'nullable|string|max:20',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();  // Redirect back with errors and input data
+        }
+
+        // Create user
+        $user = User::create([
+            'uid' => Str::uuid()->toString(), // Generate UUID for uid
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'no_telepon' => $request->no_telepon,
+            'role_id' => $request->role_id,
+        ]);
+
+        // ========================== DATA DEFAULT KETIKA REGISTER ================================
+        // Ambil semua data aktif dari MDefaultJenisTugas
+        $defaultJenisTugas = MDefaultJenisTugas::where('is_aktif', true)->get();
+        foreach ($defaultJenisTugas as $jenisTugas) {
+            MJenisTugas::create([
+                'user_id' => $user->uid,
+                'nama' => $jenisTugas->nama,
+                'icon_path' => $jenisTugas->icon_path,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Similar data for $defaultAset and $defaultTujuanTernak...
+        // ============================================
+
+        // Chat awal
+        Chat::create([
+            'user_id' => $user->uid,
+            'sender_type' => 'assistant',
+            'response_text' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
+        ]);
+        Chat::create([
+            'user_id' => $user->uid,
+            'sender_type' => 'assistant',
+            'response_text' => 'Bagaimana Aku Bisa Membantumu ☺️ ?',
+        ]);
+
+        // Redirect to login page after registration
+        return redirect()->route('login')->with('status', 'Akun berhasil dibuat, silakan login.');
+    }
+
+
     /**
      * @OA\Post(
      *     path="/api/v1/login",

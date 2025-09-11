@@ -5,16 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TernakPro | Your Smart Farming Partner</title>
     <link rel="icon" type="image/png" href="{{ asset('assets/icon_ternakpro.png') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/slider.css') }}?v={{ time() }}">
+
+    <!-- Preload resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="{{ asset('assets/logo.png') }}" as="image">
+    
+    <!-- CSS non-blocking -->
+    <link rel="preload" href="{{ asset('css/styles.css') }}?v={{ time() }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('css/slider.css') }}?v={{ time() }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}?v={{ time() }}">
+        <link rel="stylesheet" href="{{ asset('css/slider.css') }}?v={{ time() }}">
+    </noscript>
+    
+    <style>
+        /* Fallback font styling to prevent layout shift */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        /* Ensure content is visible if CSS delays */
+        .navbar, .hero, .features, .penggunaan, .testimonials, .faq, .promotion, footer {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+    </style>
 </head>
 <body> 
      {{-- <div class="size-indicator" id="sizeIndicator">Lebar: <span id="widthValue">0</span>px</div> --}}
     <!-- Navbar Transparan -->
         <nav class="navbar">
         <div class="logo">
-            <img src="{{ asset('assets/logo.png') }}" href="/" alt="TernakPro Logo"> <!-- Ganti dengan logo asli jika ada -->
+            <img src="{{ asset('assets/logo.png') }}" href="/" alt="TernakPro Logo" loading="lazy"> <!-- Ganti dengan logo asli jika ada -->
             <!-- <span>TernakPro</span> -->
         </div>
         <ul class="nav-links">
@@ -250,7 +273,8 @@
                         </svg>
             </div>
             <div class="mockup-container-penggunaan">
-                <img src="{{ asset('assets/mockup-2.png') }}" alt="Mockup TernakPro 2" class="mockup-image-penggunaan">
+                <img src="{{ asset('assets/mockup-2.png') }}" alt="Mockup TernakPro 2" 
+                    class="mockup-image-penggunaan" loading="lazy">
             </div>
         </div>
     </section>
@@ -258,35 +282,35 @@
     <section id="testimoni" class="hero-testimoni">
         <div class="testimonials">
             <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-1.png') }}" alt="Anisya Firdha" class="profile-img">
+                <img src="{{ asset('assets/reviewer-1.png') }}" alt="Anisya Firdha" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Anisya Firdha</h3>
                 <p class="subtitle">Peternak Sapi</p>
                 <p class="review">"Lebih tenang karena ada pengingat vaksin dan catatan kesehatan ternak."</p>
             </div>
             <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-2.png') }}" alt="Anisya Firdha" class="profile-img">
+                <img src="{{ asset('assets/reviewer-2.png') }}" alt="Anisya Firdha" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Anisya Firdha</h3>
                 <p class="subtitle">Peternak Kambing</p>
                 <p class="review">"Artikel tips hariari dari TernakPro bermanfaat sekali. Saya jadi tahu cara perawatan yang benar dan lebih hemat biaya."</p>
             </div>
             <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-3.png') }}" alt="Budi Santoso" class="profile-img">
+                <img src="{{ asset('assets/reviewer-3.png') }}" alt="Budi Santoso" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Budi Santoso</h3>
                 <p class="subtitle">Peternak Sapi</p>
                 <p class="review">"Sekarang lebih mudah catat jadwal vaksin dan pertumbuhan ternak. Ada pengingat otomatis jadi saya tidak pernah kettinggalan lagi."</p>
             </div>
            <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-4.png') }}" alt="Nama Data Peternak" class="profile-img">
+                <img src="{{ asset('assets/reviewer-4.png') }}" alt="Nama Data Peternak" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Nama Data Peternak</h3>
                 <p class="subtitle">Peternak Ayam</p>
                 <p class="review">"Saya sering bingung soal pakan. Dengan TernakPro, bisa langsung konsultasi lewat WhatsApp dengan ahlinya langsung."</p>
             </div>
             <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-5.png') }}" alt="Andre Wijaya" class="profile-img">
+                <img src="{{ asset('assets/reviewer-5.png') }}" alt="Andre Wijaya" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Andre Wijaya</h3>
                 <p class="subtitle">Peternak Sapi</p>
