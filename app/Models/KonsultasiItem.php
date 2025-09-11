@@ -49,7 +49,6 @@ class KonsultasiItem extends Model
     protected $casts = [
         'pukul_mulai' => 'datetime:H:i',
         'pukul_akhir' => 'datetime:H:i',
-        'pendidikan' => 'array',
     ];
 
     public function kategori()

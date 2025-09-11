@@ -41,7 +41,9 @@ class TNotificationController extends Controller
         // Retrieve notifications where user_id is null or user_id matches the provided $id
         $notifications = TNotification::where(function ($query) use ($id) {
             $query->whereNull('user_id')
-                ->orWhere('user_id', $id);
+                ->orWhere('user_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->wehre('is_aktif', true);
         })->get();
 
         // If no notifications are found, return an empty array
