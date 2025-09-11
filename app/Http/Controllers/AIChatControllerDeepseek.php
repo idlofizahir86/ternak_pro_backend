@@ -167,7 +167,7 @@ class AIChatControllerDeepseek extends Controller
     {
         $conversation = Conversation::where('user_id', $userId)
             ->with(['messages' => function($query) {
-                $query->orderBy('created_at', 'desc');
+                $query->orderBy('created_at', 'asc');
             }])
             ->findOrFail($conversationId);
         
