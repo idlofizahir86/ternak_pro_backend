@@ -66,7 +66,11 @@
             <h1>Asisten digital cerdas untuk peternak modern di Indonesia.</h1>
             <p>Kelola ternak lebih mudah dengan pencatatan ternak dan keuangan digital, konsultasi pakar, hingga akses ke pemasok pakan dalam satu aplikasi.</p>
             <div class="hero-buttons">
-                <button class="btn btn-filled" style="padding: 0.85rem 2.5rem;">Coba Sekarang</button>
+                <a href="https://app.ternakpro.id" target="_blank">
+                    <button class="btn btn-filled" style="padding: 0.85rem 2.5rem;">
+                        Coba Sekarang
+                    </button>
+                </a>
                 <button class="btn btn-outline" style="padding: 0.85rem 2.5rem;" ><a href="#fitur">Lihat Fitur Lengkap</a></button>
             </div>
         </div>
@@ -424,7 +428,11 @@
                     TernakPro : Your Smart Farming Partner
                 </div>
                 <div class="button-promotion">
-                    <button class="btn btn-filled-promotion" style="padding: 0.85rem 2.5rem;">Coba Sekarang</button>
+                    <a href="https://app.ternakpro.id" target="_blank">
+                        <button class="btn btn-filled" style="padding: 0.85rem 2.5rem;">
+                            Coba Sekarang
+                        </button>
+                    </a>
                     <button class="btn btn-outline-promotion"><a href="#fitur">Lihat Fitur Lengkap</a></button>
                 </div>
                 <br><br><br>

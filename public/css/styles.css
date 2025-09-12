@@ -133,6 +133,7 @@ a:hover {
 }
 
 .nav-buttons .btn {
+    display: none;
     margin-left: 1rem;
 }
 
