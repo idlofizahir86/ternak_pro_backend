@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\MAsset;
+use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\MDefaultAsset;
 use App\Models\MDefaultJenisTugas;
 use App\Models\MDefaultTujuanTernak;
@@ -194,17 +196,23 @@ class AuthController extends Controller
 
         // Similar data for $defaultAset and $defaultTujuanTernak...
         // ============================================
-
-        // Chat awal
-        Chat::create([
-            'user_id' => $user->uid,
-            'sender_type' => 'assistant',
-            'response_text' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
+        // Get or create conversation
+        $conversation = Conversation::create([
+                'user_id' => $user->uid,
+                'title' => 'Conversation '.$user->name
+            ]);
+        
+        // Save user message
+        Message::create([
+            'conversation_id' => $conversation->id,
+            'role' => 'assistant',
+            'content' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!'
         ]);
-        Chat::create([
-            'user_id' => $user->uid,
-            'sender_type' => 'assistant',
-            'response_text' => 'Bagaimana Aku Bisa Membantumu ☺️ ?',
+
+        Message::create([
+            'conversation_id' => $conversation->id,
+            'role' => 'assistant',
+            'content' => 'Bagaimana Aku Bisa Membantumu ☺️ ?'
         ]);
 
         // Redirect to login page after registration
