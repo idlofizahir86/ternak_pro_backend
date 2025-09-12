@@ -131,16 +131,25 @@ class AuthController extends Controller
         }
 
         // Chat awal
-        Chat::create([
-            'user_id' => $user->uid,
-            'sender_type' => 'assistant',
-            'response_text' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!',
+         // Get or create conversation
+        $conversation = Conversation::create([
+                'user_id' => $user->uid,
+                'title' => 'Conversation '.$user->name
+            ]);
+        
+        // Save user message
+        Message::create([
+            'conversation_id' => $conversation->id,
+            'role' => 'assistant',
+            'content' => 'Halo ' . $user->name . '👋, Kenalin Aku Siternak Asisten Ternak Pribadimu!'
         ]);
-        Chat::create([
-            'user_id' => $user->uid,
-            'sender_type' => 'assistant',
-            'response_text' => 'Bagaimana Aku Bisa Membantumu ☺️ ?',
+
+        Message::create([
+            'conversation_id' => $conversation->id,
+            'role' => 'assistant',
+            'content' => 'Bagaimana Aku Bisa Membantumu ☺️ ?'
         ]);
+        
         // ==================================================================================================
 
         // Generate Sanctum token
