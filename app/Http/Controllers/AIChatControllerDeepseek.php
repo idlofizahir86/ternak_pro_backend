@@ -72,7 +72,7 @@ class AIChatControllerDeepseek extends Controller
 
             // Call DeepSeek API with retry mechanism and extended timeout
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer sk-152272ec9a3f4e2687f5b35598587313',
                 'Content-Type' => 'application/json',
             ])
             ->timeout(60) // Increase timeout to avoid timeouts
