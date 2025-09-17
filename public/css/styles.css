@@ -38,7 +38,7 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5%;
-    background: transparent;
+    background: white;
     z-index: 1000;
     transition: all 0.3s; /* Transisi untuk smooth effect */
 }
@@ -606,7 +606,7 @@ svg {
     color: white;
     font-weight: 400;
     line-height: 1.2;
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     text-align: start;
     margin-top: 5%;
     letter-spacing: 1px; /* Menambahkan jarak antar huruf */

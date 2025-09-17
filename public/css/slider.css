@@ -51,7 +51,7 @@
     border-radius: 20px; /* Diubah kembali menjadi persegi panjang dengan sudut melengkung 20px */
     margin-bottom: 10px;
     object-fit: cover; /* Menjaga rasio gambar tetap proporsional */
-    max-height: 150px; /* Membatasi tinggi maksimum gambar */
+    max-height: 170px; /* Membatasi tinggi maksimum gambar */
 }
 
 .rating {
@@ -102,7 +102,7 @@ h3 {
     }
     
     .profile-img {
-        height: 100px;
+        height: 120px;
     }
     
     .rating {

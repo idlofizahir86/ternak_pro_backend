@@ -132,10 +132,10 @@
             </div>
         </div>
         <br><br>
+        {{-- <br><br>
         <br><br>
-        <br><br>
-        <br><br>
-        <img src="{{ asset('assets/stars_features.png') }}" alt="Stars Decoration" class="stars-decoration">
+        <br><br> --}}
+        {{-- <img src="{{ asset('assets/stars_features.png') }}" alt="Stars Decoration" class="stars-decoration"> --}}
     </section>
 
     <!-- Section Penggunaan -->
@@ -307,7 +307,7 @@
                 <p class="review">"Sekarang lebih mudah catat jadwal vaksin dan pertumbuhan ternak. Ada pengingat otomatis jadi saya tidak pernah kettinggalan lagi."</p>
             </div>
            <div class="testimonial-card">
-                <img src="{{ asset('assets/reviewer-4.png') }}" alt="Nama Data Peternak" class="profile-img" loading="lazy">
+                <img src="{{ asset('assets/reviewer-4.png') }}" alt="Sulistiyawati" class="profile-img" loading="lazy">
                 <div class="rating">★★★★★</div>
                 <h3>Nama Data Peternak</h3>
                 <p class="subtitle">Peternak Ayam</p>
@@ -425,7 +425,7 @@
                     Tingkatkan Keuntungan dan Produktivitas Peternakanmu
                 </div>
                 <div class="motto-promotion-content">
-                    TernakPro : Your Smart Farming Partner
+                    TernakPro : Asisten Manajemen & Konsultasi Peternak
                 </div>
                 <div class="button-promotion">
                     <a href="https://app.ternakpro.id" target="_blank">
