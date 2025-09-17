@@ -46,12 +46,12 @@
             <li><a href="#penggunaan">Penggunaan</a></li>
             <li><a href="#testimoni">Testimoni</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li class="menu-auth"><a href="/login">Login</a></li>
-            <li class="menu-auth"><a href="/register">Register</a></li>
+            {{-- <li class="menu-auth"><a href="/login">Login</a></li>
+            <li class="menu-auth"><a href="/register">Register</a></li> --}}
         </ul>
         <div class="nav-buttons">
-            <button class="btn btn-outline-login"><a href="/login">Masuk</a></button>
-            <button class="btn btn-filled"><a href="/register">Daftar</a></button>
+            {{-- <button class="btn btn-outline-login"><a href="/login">Masuk</a></button>
+            <button class="btn btn-filled"><a href="/register">Daftar</a></button> --}}
         </div>
         <div class="hamburger">
             <span></span>
